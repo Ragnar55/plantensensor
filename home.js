@@ -15,7 +15,7 @@ class app extends HTMLElement
         this.shadow = this.attachShadow({mode: "open"}) // zorgt ervoor dart het component een afgeschermde stijl kan hebben
         this.shadow.append(template.content.cloneNode(true))
         
-        }
+    }
 }
 
 customElements.define('home-comp', app)

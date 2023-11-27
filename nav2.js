@@ -53,7 +53,32 @@ class app extends HTMLElement
         
         this.button = this.shadowRoot.querySelectorAll("button")
 
+        this.button.forEach(btn => {
+            btn.addEventListener('mousedown', (e) =>{
+                console.log("btn Clicked");
+                if (btn.getAttribute("id") === "add"){
+                    this.addNewButton();
+                }
+                else {
+                    this.ChangePageEvent(btn.getAttribute("id"));
+                }
+            });
+        });
     }
+
+    addNewButton(){
+        const newLi = document.createElement("li");
+
+        const newButton = document.createElement("button");
+
+        newButton.textContent = "New Button";
+        newButton.setAttribute("id", "newButton");
+
+        newLi.appendChild(newButton);
+        this.shadowRoot.querySelector("ul").appendChild(newLi);
+    }
+    
+
 
     connectedCallback()
     {

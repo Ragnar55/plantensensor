@@ -1,11 +1,13 @@
 //#region IMPORTS
-import "./nav.js"
+//import "./nav.js"
+import "./nav2.js"
 import "./home.js"
+//import "./addButton.js"
 //#endregion IMPORTS
 
 const template = document.createElement("template")
 template.innerHTML = /*html*/`
-    <navi-comp></navi-comp>
+    <nav-comp></nav-comp>
     <div id="mainPage"></div>
 `
 
