@@ -8,7 +8,7 @@ template.innerHTML = /*html*/`
     ul {
         margin-top: 5em;
         padding: 0;
-        width: 5em;
+        width: 7em;
         overflow: hidden;
         background-color: #333;
     }
@@ -47,12 +47,13 @@ class app extends HTMLElement
         this.shadow.append(template.content.cloneNode(true))
         
         this.button = this.shadowRoot.querySelectorAll("button")
+        this.counter = 1; //de nieuwe button counter op "1" instellen
 
         this.button.forEach(btn => {
             btn.addEventListener('mousedown', (e) =>{
                 console.log("btn Clicked");
                 if (btn.getAttribute("id") === "add"){
-                    this.addNewButton();
+                    this.addnewSensor();
                 }
                 else {
                     this.ChangePageEvent(btn.getAttribute("id"));
@@ -61,17 +62,31 @@ class app extends HTMLElement
         });
     }
 
-    addNewButton(){
+    addnewSensor(){
         const newLi = document.createElement("li");
 
-        const newButton = document.createElement("button");
+        const newSensor = document.createElement("button");
 
-        newButton.textContent = "New Button";
-        newButton.setAttribute("id", "newButton");
+        //knop tekst + id instellen
+        newSensor.textContent = "New Sensor";
+        newSensor.setAttribute("id", this.counter.toString());
+        this.counter++;
         
-        const addButton = this.shadowRoot.querySelector("#add");
-        this.shadowRoot.querySelector("ul").insertBefore(newLi, addButton.parentNode);
-        newLi.appendChild(newButton);
+        //knop voor de "+" button zetten
+        const addSensor = this.shadowRoot.querySelector("#add");
+        this.shadowRoot.querySelector("ul").insertBefore(newLi, addSensor.parentNode);
+        newLi.appendChild(newSensor);
+
+        //optie om de sensor een andere naam te geven
+        newSensor.addEventListener('contextmenu', (event) =>{
+            event.preventDefault();
+
+            const newName = prompt('Enter a new name for the sensor:', newSensor.textContent);
+
+            if (newName !== null){
+                newSensor.textContent = newName
+            }
+        });
     }
     
 
