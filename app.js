@@ -1,6 +1,5 @@
 //#region IMPORTS
-//import "./nav.js"
-import "./nav2.js"
+import "./nav.js"
 import "./home.js"
 //import "./addButton.js"
 //#endregion IMPORTS

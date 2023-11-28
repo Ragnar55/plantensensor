@@ -6,16 +6,11 @@ const template = document.createElement("template")
 template.innerHTML = /*html*/`
     <style>
     ul {
-        list-style-type: none;
         margin-top: 5em;
         padding: 0;
         width: 5em;
         overflow: hidden;
         background-color: #333;
-    }
-
-    li {
-        display: inline-block;
     }
 
     li button {
@@ -53,7 +48,33 @@ class app extends HTMLElement
         
         this.button = this.shadowRoot.querySelectorAll("button")
 
+        this.button.forEach(btn => {
+            btn.addEventListener('mousedown', (e) =>{
+                console.log("btn Clicked");
+                if (btn.getAttribute("id") === "add"){
+                    this.addNewButton();
+                }
+                else {
+                    this.ChangePageEvent(btn.getAttribute("id"));
+                }
+            });
+        });
     }
+
+    addNewButton(){
+        const newLi = document.createElement("li");
+
+        const newButton = document.createElement("button");
+
+        newButton.textContent = "New Button";
+        newButton.setAttribute("id", "newButton");
+        
+        const addButton = this.shadowRoot.querySelector("#add");
+        this.shadowRoot.querySelector("ul").insertBefore(newLi, addButton.parentNode);
+        newLi.appendChild(newButton);
+    }
+    
+
 
     connectedCallback()
     {
