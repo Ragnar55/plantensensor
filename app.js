@@ -7,20 +7,27 @@ import "./sensor.js"
 const template = document.createElement("template")
 template.innerHTML = /*html*/`
     <style>
-        :host {
+    
+    :host {
         display: flex;
     }
     
     nav-comp,
-    home-comp, sensor-comp {
+    home-comp{
         flex: 0.2; 
+    }
+    
+    #pageContainer {
+        background: black;
+        display: flex;
+        flex-direction: column; 
     }
 
     </style>
 
     <nav-comp></nav-comp>
     <div id="mainPage"></div>
-    
+    <div id="pageContainer"></div>
 `
 
 class app extends HTMLElement

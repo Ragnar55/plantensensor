@@ -63,6 +63,14 @@ class navComponent extends HTMLElement
         });
     }
 
+    addHomeComponent() {
+        const homeComponent = document.createElement("home-comp");
+        homeComponent.setAttribute("id", "home");
+
+        const pageContainer = this.shadowRoot.getElementById("pageContainer");
+        pageContainer.appendChild(homeComponent);
+    }
+
     addnewSensor(){
         const newLi = document.createElement("li");
 
@@ -91,11 +99,20 @@ class navComponent extends HTMLElement
         
         //dynamisch een nieuw component aanmaken voor elke nieuwe sensor
         const NewComponent = document.createElement("sensor-comp");
+        
         NewComponent.setAttribute("id", newSensor.id)
-        this.shadowRoot.appendChild(NewComponent)
+        
+        const openComponent = () => {
+            console.log(`Open component with ID: ${componentId}`);
+        }
+
+        newSensor.addEventListener('click', this.openComponent);
+        this.shadowRoot.appendChild(NewComponent);
+
+        pageContainer.appendChild(NewComponent);
     }
     
-
+    
 
     connectedCallback()
     {
