@@ -26,7 +26,6 @@ template.innerHTML = /*html*/`
     </style>
 
     <nav-comp></nav-comp>
-    <div id="mainPage"></div>
     <div id="pageContainer"></div>
 `
 
@@ -39,7 +38,7 @@ class app extends HTMLElement
 
         this.cachedPages = [];
         this.currentPage = "";
-        this.mainPage = this.shadowRoot.querySelector("#mainPage");
+        this.pageContainer = this.shadowRoot.querySelector("#pageContainer");
 
         this.addEventListener("ChangePageEvent", this.ChangePageEvent.bind(this));
     }
@@ -53,28 +52,22 @@ class app extends HTMLElement
     showPages(page)
     {
 
-        for(let oldPage of this.cachedPages){
-            this.shadowRoot.querySelector(`#${oldPage}`).style.display = "none";    
-        }
+        this.pageContainer.innerHTML = '';
 
-        if(this.cachedPages.indexOf(page) !== -1){
-            console.log("i already cached! " + page)
-            
-            this.shadowRoot.querySelector(`#${page}`).style.display = "block";
-        }
-        else{
-            this.cachedPages.push(page) 
-            console.log(`the ${page} has been chached`)
-            
+        // Check if the page is already cached
+        if (this.cachedPages.indexOf(page) !== -1) {
+            console.log("Already cached: " + page);
+        } else {
+            // Cache the page
+            this.cachedPages.push(page);
+            console.log(`Cached ${page}`);
+
+            // Create and append the new page
             let newPage = document.createElement(`${page}-comp`);
-            newPage.setAttribute("id", page)
-
-            this.mainPage.append(newPage)
-
+            newPage.setAttribute("id", page);
+            this.pageContainer.appendChild(newPage);
         }
         console.log(this.cachedPages);
-
-        
     }
     
 }
