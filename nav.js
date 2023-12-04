@@ -6,6 +6,7 @@ const template = document.createElement("template")
 template.innerHTML = /*html*/`
     <style>
     ul {
+        list-style-type: none;
         margin-top: 5em;
         padding: 0;
         width: 7em;
@@ -32,13 +33,13 @@ template.innerHTML = /*html*/`
     }
     </style>
 
-<ul>
+<ul id="navbar">
   <li><button id="home">Home</button></li>
   <li><button id="add">+</button></li>
 </ul>
 `
 
-class app extends HTMLElement
+class navComponent extends HTMLElement
 {
     constructor(){
         super();
@@ -87,6 +88,11 @@ class app extends HTMLElement
                 newSensor.textContent = newName
             }
         });
+        
+        //dynamisch een nieuw component aanmaken voor elke nieuwe sensor
+        const NewComponent = document.createElement("sensor-comp");
+        NewComponent.setAttribute("id", newSensor.id)
+        this.shadowRoot.appendChild(NewComponent)
     }
     
 
@@ -110,4 +116,4 @@ class app extends HTMLElement
     }
 }
 
-customElements.define('nav-comp', app);
+customElements.define('nav-comp', navComponent);

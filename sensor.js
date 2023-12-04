@@ -10,11 +10,11 @@ template.innerHTML = /*html*/`
             color: blue;
         }
     </style>
-    <h1>hello i am the home page</h1>
+    <h1>hello i am the sensor page</h1>
     
 `
 
-class homeComponent extends HTMLElement
+class sensorComponent extends HTMLElement
 {
     constructor(){
         super()
@@ -24,4 +24,4 @@ class homeComponent extends HTMLElement
     }
 }
 
-customElements.define('home-comp', homeComponent)
+customElements.define('sensor-comp', sensorComponent)

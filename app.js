@@ -1,13 +1,26 @@
 //#region IMPORTS
 import "./nav.js"
 import "./home.js"
-//import "./addButton.js"
+import "./sensor.js"
 //#endregion IMPORTS
 
 const template = document.createElement("template")
 template.innerHTML = /*html*/`
+    <style>
+        :host {
+        display: flex;
+    }
+    
+    nav-comp,
+    home-comp, sensor-comp {
+        flex: 0.2; 
+    }
+
+    </style>
+
     <nav-comp></nav-comp>
     <div id="mainPage"></div>
+    
 `
 
 class app extends HTMLElement
@@ -20,6 +33,8 @@ class app extends HTMLElement
         this.cachedPages = [];
         this.currentPage = "";
         this.mainPage = this.shadowRoot.querySelector("#mainPage");
+
+        this.addEventListener("ChangePageEvent", this.ChangePageEvent.bind(this));
     }
 
     ChangePageEvent(e){
@@ -28,24 +43,17 @@ class app extends HTMLElement
         this.showPages(e.detail);
     }
 
-    connectedCallback(){
-        this.addEventListener("ChangePageEvent", this.ChangePageEvent);
-    }
-
     showPages(page)
     {
 
         for(let oldPage of this.cachedPages){
-                this.shadowRoot.querySelector(`#${oldPage}`).style.display = "none";
-                
+            this.shadowRoot.querySelector(`#${oldPage}`).style.display = "none";    
         }
 
         if(this.cachedPages.indexOf(page) !== -1){
             console.log("i already cached! " + page)
             
             this.shadowRoot.querySelector(`#${page}`).style.display = "block";
-
-
         }
         else{
             this.cachedPages.push(page) 
