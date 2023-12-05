@@ -51,8 +51,13 @@ class app extends HTMLElement
 
     showPages(page)
     {
-
-        this.pageContainer.innerHTML = '';
+        const pageContainer = this.shadowRoot.getElementById("pageContainer");
+        if (!pageContainer){
+            console.error("#pageContainer not found");
+            return;
+        }
+        
+        pageContainer.innerHTML = '';
 
         // Check if the page is already cached
         if (this.cachedPages.indexOf(page) !== -1) {

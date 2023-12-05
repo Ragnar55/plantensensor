@@ -44,15 +44,14 @@ class navComponent extends HTMLElement
     constructor(){
         super();
 
-        this.shadow = this.attachShadow({mode: "open"}) // zorgt ervoor dart het component een afgeschermde stijl kan hebben
-        this.shadow.append(template.content.cloneNode(true))
+        this.shadow = this.attachShadow({mode: "open"}); // zorgt ervoor dart het component een afgeschermde stijl kan hebben
+        this.shadow.append(template.content.cloneNode(true));
         
-        this.button = this.shadowRoot.querySelectorAll("button")
+        this.button = this.shadowRoot.querySelectorAll("button");
         this.counter = 1; //de nieuwe button counter op "1" instellen
 
         //// check if pageContainer exists
-        const pageContainer = this.shadowRoot.getElementById("pageContainer");
-        console.log("#pageContainer exists:", pageContainer !== null);
+        this.logPageContainerExistence();
         ////
 
         this.button.forEach(btn => {
@@ -74,11 +73,23 @@ class navComponent extends HTMLElement
         });
     }
 
+    ///////////////////////////
+    logPageContainerExistence(){
+        const pageContainer = this.shadowRoot.getElementById("pageContainer");
+        console.log("#pageContainer exists:", pageContainer !== null);
+    }
+    ///////////////////////////
     addHomeComponent() {
         const homeComponent = document.createElement("home-comp");
         homeComponent.setAttribute("id", "home");
 
-        const pageContainer = this.shadowRoot.getElementById("pageContainer");
+        const appShadow = document.querySelector('app-comp').shadowRoot;
+        const pageContainer = appShadow.getElementById("pageContainer");
+        
+        if(!pageContainer){
+            console.error("#pageContainer not found");
+            return;
+        }
         pageContainer.appendChild(homeComponent);
     }
 
@@ -126,7 +137,7 @@ class navComponent extends HTMLElement
             btn.addEventListener('mousedown', (e) =>{
                 console.log("btn Clicked")
                 this.ChangePageEvent(btn.getAttribute("id"))
-            })
+            });
         });
     }
 
@@ -142,7 +153,7 @@ class navComponent extends HTMLElement
             bubbles: true,
             composed: true,
             detail: id
-        }))
+        }));
     }
 }
 
