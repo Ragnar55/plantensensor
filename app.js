@@ -56,8 +56,8 @@ class app extends HTMLElement
             console.error("#pageContainer not found");
             return;
         }
-        
-        pageContainer.innerHTML = '';
+        //als je deze uit comments haalt displayt die de home-comp niet en anders wel?????
+        //pageContainer.innerHTML = '';
 
         // Check if the page is already cached
         if (this.cachedPages.indexOf(page) !== -1) {
