@@ -57,7 +57,7 @@ class app extends HTMLElement
             return;
         }
         
-        //pageContainer.innerHTML = '';
+        pageContainer.innerHTML = '';
 
         // Check if the page is already cached
         if (this.cachedPages.indexOf(page) !== -1) {
@@ -68,7 +68,14 @@ class app extends HTMLElement
             console.log(`Cached ${page}`);
 
             // Create and append the new page
-            let newPage = document.createElement(`${page}-comp`);
+            let newPage;
+            if (page === "home"){
+                newPage = document.createElement("home-comp");
+            }
+            else{
+                newPage = document.createElement(`${page}-comp`);
+            }
+            
             newPage.setAttribute("id", page);
             this.pageContainer.appendChild(newPage);
         }
