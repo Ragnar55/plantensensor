@@ -11,16 +11,16 @@ template.innerHTML = /*html*/`
     :host {
         display: flex;
     }
-    
     nav-comp,
-    home-comp{
-        flex: 0.2; 
+    home-comp,
+    sensor-comp {
+        flex: 0.2;
     }
-    
     #pageContainer {
         background: black;
         display: flex;
         flex-direction: column; 
+        flex: 1;
     }
 
     </style>
@@ -37,8 +37,8 @@ class app extends HTMLElement
         shadow.append(template.content.cloneNode(true))
 
         this.cachedPages = [];
-        this.currentPage = "";
-        this.pageContainer = this.shadowRoot.querySelector("#pageContainer");
+        this.pageContainer = shadow.getElementById("pageContainer");
+        //this.pageContainer = this.shadowRoot.querySelector("#pageContainer");
 
         this.addEventListener("ChangePageEvent", this.ChangePageEvent.bind(this));
     }
@@ -57,7 +57,7 @@ class app extends HTMLElement
             return;
         }
         
-        pageContainer.innerHTML = '';
+        //pageContainer.innerHTML = '';
 
         // Check if the page is already cached
         if (this.cachedPages.indexOf(page) !== -1) {
