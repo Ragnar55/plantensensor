@@ -71,14 +71,17 @@ class navComponent extends HTMLElement
     }
     
     addHomeComponent() {
+        const existingHomeComponent = this.shadowRoot.querySelector("#pageContainer home-comp");
+        
+        if (!existingHomeComponent) {
+            const homeComponent = document.createElement("home-comp");
+            homeComponent.setAttribute("id", "home");
 
-        const homeComponent = document.createElement("home-comp");
-        homeComponent.setAttribute("id", "home");
+            const appShadow = document.querySelector('app-comp').shadowRoot;
+            const pageContainer = appShadow.getElementById("pageContainer");
 
-        const appShadow = document.querySelector('app-comp').shadowRoot;
-        const pageContainer = appShadow.getElementById("pageContainer");
-
-        pageContainer.appendChild(homeComponent);
+            pageContainer.appendChild(homeComponent);
+        }
     }
 
     addNewSensor(){

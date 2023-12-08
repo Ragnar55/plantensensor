@@ -62,7 +62,8 @@ class app extends HTMLElement
         const existingPage = this.pageContainer.querySelector(`#${page}`);
         if (existingPage) {
             console.log("Already cached:", page);
-        } else {
+        } 
+        else {
             // Cache the page
             this.cachedPages.push(page);
             console.log(`Cached ${page}`);
