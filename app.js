@@ -17,12 +17,14 @@ template.innerHTML = /*html*/`
         flex: 0.2;
     }
     #pageContainer {
-        background: black;
+        height: 50em;
+        margin-top: 5em;
+        margin-right: 2em;
+        background: lightgray;
         display: flex;
         flex-direction: column; 
         flex: 1;
     }
-
     </style>
 
     <nav-comp></nav-comp>

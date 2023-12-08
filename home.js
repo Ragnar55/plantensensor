@@ -6,7 +6,6 @@ const template = document.createElement("template")
 template.innerHTML = /*html*/`
     <style>
         h1{
-            background: black;
             color: blue;
         }
     </style>

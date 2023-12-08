@@ -62,12 +62,12 @@ class navComponent extends HTMLElement
                 }
             });
         });
-        this.shadowRoot.querySelectorAll("#navbar li button[id^='sensor']").forEach(sensorBtn => {
-            sensorBtn.addEventListener('click', (e) => {
+        /*this.shadowRoot.querySelectorAll("#navbar li button[id^='sensor']").forEach(sensorBtn => {
+            sensorBtn.addEventListener('mousedown', (e) => {
                 const sensorId = sensorBtn.getAttribute("id");
                 this.displaySensor(sensorId);
             });
-        });
+        });*/
     }
     
     addHomeComponent() {
@@ -110,12 +110,12 @@ class navComponent extends HTMLElement
         const pageContainer = this.shadowRoot.getElementById("pageContainer");
 
         // Pagina leegmaken
-        pageContainer.innerHTML = '';
+        //pageContainer.innerHTML = '';
 
         // Dynamisch een nieuw component aanmaken voor de id
         const sensorComponent = document.createElement("sensor-comp");
         sensorComponent.setAttribute("id", sensorId);
-        pageContainer.appendChild(sensorComponent);
+        this.pageContainer.appendChild(sensorComponent);
     }
     
 
