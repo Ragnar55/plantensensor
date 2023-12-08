@@ -50,10 +50,7 @@ class navComponent extends HTMLElement
         this.button = this.shadowRoot.querySelectorAll("button");
         this.counter = 1; //de nieuwe button counter op "1" instellen
 
-        //// check if pageContainer exists
-        this.logPageContainerExistence();
-        ////
-
+        // nieuwe sensorbutton toevoegen
         this.button.forEach(btn => {
             btn.addEventListener('mousedown', (e) =>{
                 console.log("btn Clicked");
@@ -65,32 +62,26 @@ class navComponent extends HTMLElement
                 }
             });
         });
-        this.shadowRoot.querySelectorAll("#navbar li button[id^='sensor']").forEach(sensorBtn => {
-            sensorBtn.addEventListener('click', (e) => {
+        /*this.shadowRoot.querySelectorAll("#navbar li button[id^='sensor']").forEach(sensorBtn => {
+            sensorBtn.addEventListener('mousedown', (e) => {
                 const sensorId = sensorBtn.getAttribute("id");
                 this.displaySensor(sensorId);
             });
-        });
+        });*/
     }
-
-    ///////////////////////////
-    logPageContainerExistence(){
-        const pageContainer = this.shadowRoot.getElementById("pageContainer");
-        console.log("#pageContainer exists:", pageContainer !== null);
-    }
-    ///////////////////////////
+    
     addHomeComponent() {
-        const homeComponent = document.createElement("home-comp");
-        homeComponent.setAttribute("id", "home");
-
-        const appShadow = document.querySelector('app-comp').shadowRoot;
-        const pageContainer = appShadow.getElementById("pageContainer");
+        const existingHomeComponent = this.shadowRoot.querySelector("#pageContainer home-comp");
         
-        if(!pageContainer){
-            console.error("#pageContainer not found");
-            return;
+        if (!existingHomeComponent) {
+            const homeComponent = document.createElement("home-comp");
+            homeComponent.setAttribute("id", "home");
+
+            const appShadow = document.querySelector('app-comp').shadowRoot;
+            const pageContainer = appShadow.getElementById("pageContainer");
+
+            pageContainer.appendChild(homeComponent);
         }
-        pageContainer.appendChild(homeComponent);
     }
 
     addNewSensor(){
@@ -98,7 +89,7 @@ class navComponent extends HTMLElement
         const newSensor = document.createElement("button");
 
         //knop tekst + id instellen
-        newSensor.textContent = "New Sensor";
+        newSensor.textContent = `Sensor ${this.counter}`;
         newSensor.setAttribute("id", `sensor${this.counter}`);
         this.counter++;
         
@@ -122,12 +113,12 @@ class navComponent extends HTMLElement
         const pageContainer = this.shadowRoot.getElementById("pageContainer");
 
         // Pagina leegmaken
-        pageContainer.innerHTML = '';
+        //pageContainer.innerHTML = '';
 
         // Dynamisch een nieuw component aanmaken voor de id
         const sensorComponent = document.createElement("sensor-comp");
         sensorComponent.setAttribute("id", sensorId);
-        pageContainer.appendChild(sensorComponent);
+        this.pageContainer.appendChild(sensorComponent);
     }
     
 
@@ -144,7 +135,8 @@ class navComponent extends HTMLElement
     ChangePageEvent(id){
         if (id === "home") {
             this.addHomeComponent();
-        } else if (id.startsWith("sensor")) {
+        } 
+        else if (id.startsWith("sensor")) {
             console.log("Displaying sensor:", id);
             this.displaySensor(id);
         }

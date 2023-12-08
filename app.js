@@ -17,12 +17,14 @@ template.innerHTML = /*html*/`
         flex: 0.2;
     }
     #pageContainer {
-        background: black;
+        height: 50em;
+        margin-top: 5em;
+        margin-right: 2em;
+        background: lightgray;
         display: flex;
         flex-direction: column; 
         flex: 1;
     }
-
     </style>
 
     <nav-comp></nav-comp>
@@ -51,34 +53,27 @@ class app extends HTMLElement
 
     showPages(page)
     {
-        const pageContainer = this.shadowRoot.getElementById("pageContainer");
-        if (!pageContainer){
+        if (!this.pageContainer) {
             console.error("#pageContainer not found");
             return;
         }
-        //als je deze uit comments haalt displayt die de home-comp niet en anders wel?????
-        //pageContainer.innerHTML = '';
-
+    
         // Check if the page is already cached
-        if (this.cachedPages.indexOf(page) !== -1) {
-            console.log("Already cached: " + page);
-        } else {
+        const existingPage = this.pageContainer.querySelector(`#${page}`);
+        if (existingPage) {
+            console.log("Already cached:", page);
+        } 
+        else {
             // Cache the page
             this.cachedPages.push(page);
             console.log(`Cached ${page}`);
-
+    
             // Create and append the new page
-            let newPage;
-            if (page === "home"){
-                newPage = document.createElement("home-comp");
-            }
-            else{
-                newPage = document.createElement(`${page}-comp`);
-            }
-            
+            let newPage = document.createElement(`${page}-comp`);
             newPage.setAttribute("id", page);
             this.pageContainer.appendChild(newPage);
         }
+    
         console.log(this.cachedPages);
     }
     
