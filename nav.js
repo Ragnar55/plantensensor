@@ -69,7 +69,7 @@ class navComponent extends HTMLElement
             });
         });
     }
-
+    
     addHomeComponent() {
         const homeComponent = document.createElement("home-comp");
         homeComponent.setAttribute("id", "home");
@@ -85,7 +85,7 @@ class navComponent extends HTMLElement
         const newSensor = document.createElement("button");
 
         //knop tekst + id instellen
-        newSensor.textContent = "New Sensor";
+        newSensor.textContent = `Sensor ${this.counter}`;
         newSensor.setAttribute("id", `sensor${this.counter}`);
         this.counter++;
         
@@ -131,7 +131,8 @@ class navComponent extends HTMLElement
     ChangePageEvent(id){
         if (id === "home") {
             this.addHomeComponent();
-        } else if (id.startsWith("sensor")) {
+        } 
+        else if (id.startsWith("sensor")) {
             console.log("Displaying sensor:", id);
             this.displaySensor(id);
         }
