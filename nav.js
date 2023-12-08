@@ -50,10 +50,7 @@ class navComponent extends HTMLElement
         this.button = this.shadowRoot.querySelectorAll("button");
         this.counter = 1; //de nieuwe button counter op "1" instellen
 
-        //// check if pageContainer exists
-        this.logPageContainerExistence();
-        ////
-
+        // nieuwe sensorbutton toevoegen
         this.button.forEach(btn => {
             btn.addEventListener('mousedown', (e) =>{
                 console.log("btn Clicked");
@@ -73,23 +70,13 @@ class navComponent extends HTMLElement
         });
     }
 
-    ///////////////////////////
-    logPageContainerExistence(){
-        const pageContainer = this.shadowRoot.getElementById("pageContainer");
-        console.log("#pageContainer exists:", pageContainer !== null);
-    }
-    ///////////////////////////
     addHomeComponent() {
         const homeComponent = document.createElement("home-comp");
         homeComponent.setAttribute("id", "home");
 
         const appShadow = document.querySelector('app-comp').shadowRoot;
         const pageContainer = appShadow.getElementById("pageContainer");
-        
-        if(!pageContainer){
-            console.error("#pageContainer not found");
-            return;
-        }
+
         pageContainer.appendChild(homeComponent);
     }
 

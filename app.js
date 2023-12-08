@@ -51,11 +51,6 @@ class app extends HTMLElement
 
     showPages(page)
     {
-        const pageContainer = this.shadowRoot.getElementById("pageContainer");
-        if (!pageContainer){
-            console.error("#pageContainer not found");
-            return;
-        }
         //als je deze uit comments haalt displayt die de home-comp niet en anders wel?????
         //pageContainer.innerHTML = '';
 
