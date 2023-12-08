@@ -71,6 +71,7 @@ class navComponent extends HTMLElement
     }
     
     addHomeComponent() {
+
         const homeComponent = document.createElement("home-comp");
         homeComponent.setAttribute("id", "home");
 

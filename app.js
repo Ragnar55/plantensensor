@@ -51,29 +51,26 @@ class app extends HTMLElement
 
     showPages(page)
     {
-        //als je deze uit comments haalt displayt die de home-comp niet en anders wel?????
-        //pageContainer.innerHTML = '';
-
+        if (!this.pageContainer) {
+            console.error("#pageContainer not found");
+            return;
+        }
+    
         // Check if the page is already cached
-        if (this.cachedPages.indexOf(page) !== -1) {
-            console.log("Already cached: " + page);
+        const existingPage = this.pageContainer.querySelector(`#${page}`);
+        if (existingPage) {
+            console.log("Already cached:", page);
         } else {
             // Cache the page
             this.cachedPages.push(page);
             console.log(`Cached ${page}`);
-
+    
             // Create and append the new page
-            let newPage;
-            if (page === "home"){
-                newPage = document.createElement("home-comp");
-            }
-            else{
-                newPage = document.createElement(`${page}-comp`);
-            }
-            
+            let newPage = document.createElement(`${page}-comp`);
             newPage.setAttribute("id", page);
             this.pageContainer.appendChild(newPage);
         }
+    
         console.log(this.cachedPages);
     }
     
