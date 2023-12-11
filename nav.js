@@ -44,7 +44,7 @@ class navComponent extends HTMLElement
     constructor(){
         super();
 
-        this.shadow = this.attachShadow({mode: "open"}); // zorgt ervoor dart het component een afgeschermde stijl kan hebben
+        this.shadow = this.attachShadow({mode: "open"});
         this.shadow.append(template.content.cloneNode(true));
         
         this.button = this.shadowRoot.querySelectorAll("button");
@@ -62,12 +62,6 @@ class navComponent extends HTMLElement
                 }
             });
         });
-        /*this.shadowRoot.querySelectorAll("#navbar li button[id^='sensor']").forEach(sensorBtn => {
-            sensorBtn.addEventListener('mousedown', (e) => {
-                const sensorId = sensorBtn.getAttribute("id");
-                this.displaySensor(sensorId);
-            });
-        });*/
     }
     
     addHomeComponent() {
@@ -98,6 +92,12 @@ class navComponent extends HTMLElement
         this.shadowRoot.querySelector("ul").insertBefore(newLi, addSensor.parentNode);
         newLi.appendChild(newSensor);
 
+        //eventlistener toevoegen aan de nieuwe buttons
+        newSensor.addEventListener('mousedown', (event) =>{
+            const sensorId = newSensor.getAttribute("id");
+            this.displaySensor(sensorId);
+        });
+
         //optie om de sensor een andere naam te geven
         newSensor.addEventListener('contextmenu', (event) =>{
             event.preventDefault();
@@ -110,15 +110,14 @@ class navComponent extends HTMLElement
     }
     
     displaySensor(sensorId){
-        const pageContainer = this.shadowRoot.getElementById("pageContainer");
-
-        // Pagina leegmaken
-        //pageContainer.innerHTML = '';
-
+        const appShadow = document.querySelector('app-comp').shadowRoot;
+        const pageContainer = appShadow.getElementById("pageContainer");
+        
         // Dynamisch een nieuw component aanmaken voor de id
         const sensorComponent = document.createElement("sensor-comp");
         sensorComponent.setAttribute("id", sensorId);
-        this.pageContainer.appendChild(sensorComponent);
+
+        pageContainer.appendChild(sensorComponent);
     }
     
 
@@ -126,7 +125,7 @@ class navComponent extends HTMLElement
     {
         this.button.forEach(btn => {
             btn.addEventListener('mousedown', (e) =>{
-                console.log("btn Clicked")
+                console.log("nav btn Clicked")
                 this.ChangePageEvent(btn.getAttribute("id"))
             });
         });

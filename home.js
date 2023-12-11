@@ -16,7 +16,7 @@ class homeComponent extends HTMLElement
 {
     constructor(){
         super()
-        this.shadow = this.attachShadow({mode: "open"}) // zorgt ervoor dat het component een afgeschermde stijl kan hebben
+        this.shadow = this.attachShadow({mode: "open"}) 
         this.shadow.append(template.content.cloneNode(true))
         
     }

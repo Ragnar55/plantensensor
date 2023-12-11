@@ -35,48 +35,12 @@ class app extends HTMLElement
 {
     constructor(){
         super()
-        const shadow = this.attachShadow({mode: "open"}) // zorgt ervoor dart het component een afgeschermde stijl kan hebben
+        const shadow = this.attachShadow({mode: "open"}) // zorgt ervoor dat het component een afgeschermde stijl kan hebben
         shadow.append(template.content.cloneNode(true))
 
-        this.cachedPages = [];
         this.pageContainer = shadow.getElementById("pageContainer");
-        //this.pageContainer = this.shadowRoot.querySelector("#pageContainer");
-
-        this.addEventListener("ChangePageEvent", this.ChangePageEvent.bind(this));
     }
 
-    ChangePageEvent(e){
-        console.log("btnPress Received " + e.detail);
-
-        this.showPages(e.detail);
-    }
-
-    showPages(page)
-    {
-        if (!this.pageContainer) {
-            console.error("#pageContainer not found");
-            return;
-        }
-    
-        // Check if the page is already cached
-        const existingPage = this.pageContainer.querySelector(`#${page}`);
-        if (existingPage) {
-            console.log("Already cached:", page);
-        } 
-        else {
-            // Cache the page
-            this.cachedPages.push(page);
-            console.log(`Cached ${page}`);
-    
-            // Create and append the new page
-            let newPage = document.createElement(`${page}-comp`);
-            newPage.setAttribute("id", page);
-            this.pageContainer.appendChild(newPage);
-        }
-    
-        console.log(this.cachedPages);
-    }
-    
 }
 
 customElements.define('app-comp', app)
