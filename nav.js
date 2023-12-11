@@ -95,7 +95,7 @@ class navComponent extends HTMLElement
         //eventlistener toevoegen aan de nieuwe buttons
         newSensor.addEventListener('mousedown', (event) =>{
             const sensorId = newSensor.getAttribute("id");
-            this.displaySensor(sensorId);
+            this.ChangePageEvent(sensorId);
         });
 
         //optie om de sensor een andere naam te geven
@@ -112,12 +112,13 @@ class navComponent extends HTMLElement
     displaySensor(sensorId){
         const appShadow = document.querySelector('app-comp').shadowRoot;
         const pageContainer = appShadow.getElementById("pageContainer");
-        
+
         // Dynamisch een nieuw component aanmaken voor de id
         const sensorComponent = document.createElement("sensor-comp");
         sensorComponent.setAttribute("id", sensorId);
 
         pageContainer.appendChild(sensorComponent);
+        console.log("displaySensor")
     }
     
 

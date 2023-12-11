@@ -2,8 +2,8 @@
 
 //#endregion IMPORTS
 
-const template = document.createElement("template")
-template.innerHTML = /*html*/`
+const sensorTemplate = document.createElement("template")
+sensorTemplate.innerHTML = /*html*/`
     <style>
         h1{
             color: blue;
@@ -17,7 +17,7 @@ class sensorComponent extends HTMLElement
     constructor(){
         super()
         this.shadow = this.attachShadow({mode: "open"})
-        this.shadow.append(template.content.cloneNode(true))
+        this.shadow.append(sensorTemplate.content.cloneNode(true))
         
     }
 }

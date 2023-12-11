@@ -2,8 +2,8 @@
 
 //#endregion IMPORTS
 
-const template = document.createElement("template")
-template.innerHTML = /*html*/`
+const homeTemplate = document.createElement("template")
+homeTemplate.innerHTML = /*html*/`
     <style>
         h1{
             color: blue;
@@ -17,7 +17,7 @@ class homeComponent extends HTMLElement
     constructor(){
         super()
         this.shadow = this.attachShadow({mode: "open"}) 
-        this.shadow.append(template.content.cloneNode(true))
+        this.shadow.append(homeTemplate.content.cloneNode(true))
         
     }
 }
