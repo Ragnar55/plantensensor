@@ -1,7 +1,7 @@
 //#region IMPORTS
 import "./nav.js"
 import "./home.js"
-import "./sensor.js"
+import "./sensorData/sensor.js"
 //#endregion IMPORTS
 
 const template = document.createElement("template")
