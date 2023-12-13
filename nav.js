@@ -75,6 +75,11 @@ class navComponent extends HTMLElement
             const pageContainer = appShadow.getElementById("pageContainer");
 
             pageContainer.appendChild(homeComponent);
+
+            // Clear existing components
+            pageContainer.innerHTML = '';
+            pageContainer.appendChild(homeComponent);
+            this.currentPage = homeComponent;
         }
     }
 
@@ -112,6 +117,9 @@ class navComponent extends HTMLElement
     displaySensor(sensorId){
         const appShadow = document.querySelector('app-comp').shadowRoot;
         const pageContainer = appShadow.getElementById("pageContainer");
+
+        // Clear existing components
+        pageContainer.innerHTML = '';
 
         // Dynamisch een nieuw component aanmaken voor de id
         const sensorComponent = document.createElement("sensor-comp");
