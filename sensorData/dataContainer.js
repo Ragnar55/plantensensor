@@ -1,19 +1,31 @@
+/*
+te ontvangen data:
+    -temperatuur
+    -luchtvochtigheid
+    -vochtigheid aarde
+    -fertiliteit aarde
+    -licht
+    -baterij percentage
+    -opladen
+*/
+
+//manier om data mee te krijgen vannuit data page zodat er voor elke data
+//een li comp is met een array ofso?
 class UlComponent extends HTMLElement {
-    constructor() {
-        super();
+    connectedCallback() {
+        const title = this.getAttribute('title');
+        const dataArray = JSON.parse(this.getAttribute('data-array')) || [];
+
         this.attachShadow({ mode: 'open' });
-        this.shadowRoot.innerHTML =/*html*/
+        this.shadowRoot.innerHTML = /*html*/
         `
-        
         <div>
-        <h2>${this.getAttribute('title')}</h2>
-        <ul>
-            <li-component>Item 1</li-component>
-            <li-component>Item 2</li-component>
-            <li-component>Item 3</li-component>
-        </ul>
+            <h2>${title}</h2>
+            <ul>
+                ${dataArray.map(item => `<li-component>${item}</li-component>`).join('')}
+            </ul>
         </div>
-    `;
+        `;
     }
 }
 
