@@ -1,4 +1,7 @@
 /*
+
+------------------------dataItem
+
 const dataTestItem = document.createElement("dataTestItem")
 dataTestItem.innerHTML =/*html*//*
     `
@@ -29,6 +32,9 @@ class LiComponent extends HTMLElement {
 customElements.define('li-component', LiComponent);
 
     /*
+
+------------------------------dataItem
+
 class dataItem{
     constructor(){
         super()

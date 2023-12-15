@@ -1,4 +1,5 @@
 /*
+-------------------dataContainer
 te ontvangen data:
     -temperatuur
     -luchtvochtigheid
@@ -11,6 +12,7 @@ te ontvangen data:
 
 //manier om data mee te krijgen vannuit data page zodat er voor elke data
 //een li comp is met een array ofso?
+//is volgens mij gdn
 class UlComponent extends HTMLElement {
     connectedCallback() {
         const title = this.getAttribute('title');
@@ -30,3 +32,10 @@ class UlComponent extends HTMLElement {
 }
 
 customElements.define('ul-component', UlComponent);
+
+/*
+
+--------------------------------dataContainer
+
+*/
+

@@ -1,5 +1,7 @@
 //#region IMPORTS
-
+import "./dataContainer.js"
+import "./dataItem.js"
+import "./dataPage.js"
 //#endregion IMPORTS
 
 const sensorTemplate = document.createElement("template")
@@ -10,6 +12,7 @@ sensorTemplate.innerHTML = /*html*/`
         }
     </style>
     <h1>hello i am the sensor page</h1>
+    <container-component></container-component>
 `
 
 class sensorComponent extends HTMLElement

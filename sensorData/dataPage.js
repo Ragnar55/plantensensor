@@ -1,4 +1,7 @@
 /*
+
+----------------------------------dataPage
+
 te ontvangen data:
     -temperatuur
     -luchtvochtigheid
@@ -26,3 +29,9 @@ class ContainerComponent extends HTMLElement {
 }
 
 customElements.define('container-component', ContainerComponent);
+
+/*
+
+-------------------------dataPage
+
+*/
