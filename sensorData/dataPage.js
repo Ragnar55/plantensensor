@@ -12,6 +12,9 @@ te ontvangen data:
     -leeftijd
     -baterij percentage
     -opladen
+    niet dus
+                <ul-component title="Sensor" data-array='["baterij percentage", "opladen"]'></ul-component>
+    mischien is leeftijd nog te berekenen?
 */
 
 class ContainerComponent extends HTMLElement {
@@ -21,8 +24,8 @@ class ContainerComponent extends HTMLElement {
         this.shadowRoot.innerHTML = /*html*/
         `
         <div>
-            <ul-component title="Plant" data-array='["temperatuur", "luchtvochtigheid", "vochtigheid aarde","fertiliteit aarde","licht","druk","leeftijd"]'></ul-component>
-            <ul-component title="Sensor" data-array='["baterij percentage", "opladen"]'></ul-component>
+            <ul-component title="Plant" data-array='["temperatuur", "luchtvochtigheid","licht","leeftijd"]'></ul-component>
+
         </div>
         `;
     }
