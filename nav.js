@@ -32,11 +32,11 @@ template.innerHTML = /*html*/`
         background-color: #04AA6D;
     }
     </style>
-
-<ul id="navbar">
-  <li><button id="home">Home</button></li>
-  <li><button id="add">+</button></li>
-</ul>
+    
+    <ul id="navbar">
+        <li><button id="home">Home</button></li>
+        <li><button id="add">+</button></li>
+    </ul>
 `
 
 class navComponent extends HTMLElement

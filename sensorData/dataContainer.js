@@ -1,18 +1,4 @@
-/*
--------------------dataContainer
-te ontvangen data:
-    -temperatuur
-    -luchtvochtigheid
-    -vochtigheid aarde
-    -fertiliteit aarde
-    -licht
-    -baterij percentage
-    -opladen
-*/
 
-//manier om data mee te krijgen vannuit data page zodat er voor elke data
-//een li comp is met een array ofso?
-//is volgens mij gdn
 class UlComponent extends HTMLElement {
     connectedCallback() {
         const title = this.getAttribute('title');
@@ -20,9 +6,17 @@ class UlComponent extends HTMLElement {
 
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = /*html*/
+        
         `
+        <style>
+            ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+        </style>
         <div>
-            <h2>${title}</h2>
+            <h1>${title}</h2>
             <ul>
                 ${dataArray.map(item => `<li-component>${item}</li-component>`).join('')}
             </ul>
