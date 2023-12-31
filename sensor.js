@@ -20,9 +20,10 @@ class SensorComponent extends HTMLElement {
 customElements.define('sensor-comp', SensorComponent);
 
 // dataPage.js
+// data in var steken 
 var humidity = 83;
-var soil="?";
-var salt="?";
+var soil=19;
+var salt=0;
 var light_intensity = 500;
 var altitude= 55;
 var pressure=100;
@@ -33,7 +34,7 @@ var batterij=65;
 class ContainerComponent extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
+        this.attachShadow({ mode: 'open' });//hierna word data+voorzetsel megegeven 
         this.shadowRoot.innerHTML = /*html*/
             `
         <style>
@@ -43,17 +44,22 @@ class ContainerComponent extends HTMLElement {
             }
         </style>
         <div>
-            <ul-component title="Plant" item-array='["Vochtigheid:"," Grond:"," Zoutgehalte:"," Lichtintensiteit:"," Hoogte:"," Druk:"," Temperatuur:"]' data-array='["${humidity}%"," ${soil} aarde"," ${salt} zout", "${light_intensity}lux","${altitude}m","${pressure}Pa","${temperature}°C"]'>
-                <img src="../img/pressure.png" alt="Image">
+            <ul-component title="Plant" item-array='["Vochtigheid:"," Grond:"," Zoutgehalte:"," Lichtintensiteit:"," Hoogte:"," Druk:"," Temperatuur:"]'
+                                        data-array='["${humidity}%"," ${soil} aarde"," ${salt} zout", "${light_intensity}lux","${altitude}m","${pressure}Pa","${temperature}°C"]'>
+                <!--
+                <img src="/img/pressure.png" alt="Image"> is juist
                 <img src="../img/humidity.png" alt="Image">
                 <img src="../img/height.png" alt="Image">
-                <img src="../img/light.png" alt="Image">                <img src="../img/light.png" alt="Image">
+                <img src="../img/light.png" alt="Image">                
                 <img src="../img/termometer.png" alt="Image">
+                -->
             </ul-component>
 
             <ul-component title="Sensor" item-array='[" Batterij:"]' data-array='["${batterij}%"]'>
+                <!--
                 <img src="../img/battery.png" alt="Image">
                 <img src="../img/logo.png" alt="Image">
+                -->
             </ul-component>
         </div>
         `;
