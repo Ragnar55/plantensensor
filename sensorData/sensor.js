@@ -21,8 +21,8 @@ customElements.define('sensor-comp', SensorComponent);
 
 // dataPage.js
 var humidity = 83;
-var soil="tf moet hier";
-var salt="ook wat hier";
+var soil="?";
+var salt="?";
 var light_intensity = 500;
 var altitude= 55;
 var pressure=100;
@@ -37,12 +37,13 @@ class ContainerComponent extends HTMLElement {
         this.shadowRoot.innerHTML = /*html*/
             `
         <style>
+            
             div{
                 margin: 2em;
             }
         </style>
         <div>
-            <ul-component title="Plant" item-array='["vochtigheid:"," Grond:"," Zoutgehalte:"," Lichtintensiteit:"," hoogte:"," Druk:"," Temperatuur:"]' data-array='["${humidity}%"," ${soil} aarde"," ${salt} zout", "${light_intensity}lux","${altitude}m","${pressure}Pa","${temperature}°C"]'>
+            <ul-component title="Plant" item-array='["Vochtigheid:"," Grond:"," Zoutgehalte:"," Lichtintensiteit:"," Hoogte:"," Druk:"," Temperatuur:"]' data-array='["${humidity}%"," ${soil} aarde"," ${salt} zout", "${light_intensity}lux","${altitude}m","${pressure}Pa","${temperature}°C"]'>
                 <img src="../img/pressure.png" alt="Image">
                 <img src="../img/humidity.png" alt="Image">
                 <img src="../img/height.png" alt="Image">
@@ -77,6 +78,7 @@ class LiComponent extends HTMLElement {
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                 display: flex;
                 justify-content: space-between;
+                font-family: 'Nunito', sans-serif;
             }
 
         </style>
@@ -124,6 +126,9 @@ class UlComponent extends HTMLElement {
                 width: 9em;
                 box-sizing: border-box;
             } 
+            strong {
+            color: #2E7D32;        
+            }
         </style>
         <div class="flex-container">
             <div class="flex-title-child">
@@ -139,7 +144,7 @@ class UlComponent extends HTMLElement {
 
                 <div class="flex-child">
                     <ul>
-                        ${itemArray.map(item => `<li-component>${item}</li-component>`).join('')}
+                        ${itemArray.map(item => `<li-component><strong>${item}</li-component></strong>`).join('')}
                     </ul>
                 </div>
 

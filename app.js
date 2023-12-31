@@ -16,6 +16,7 @@ template.innerHTML = /*html*/`
     sensor-comp {
         flex: 0.2;
     }
+    
     #pageContainer {
         height: 50em;
         margin-top: 5em;
