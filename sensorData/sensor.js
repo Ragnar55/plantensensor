@@ -6,7 +6,6 @@ sensorTemplate.innerHTML = /*html*/`
             color: blue;
         }
     </style>
-    <h1>hello, I am the sensor page</h1>
     <container-component></container-component>
 `;
 
@@ -37,10 +36,14 @@ class ContainerComponent extends HTMLElement {
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = /*html*/
             `
-
+        <style>
+            div{
+                margin: 2em;
+            }
+        </style>
         <div>
-            <ul-component title="Plant" data-array='["<strong>Vochtigheid:</strong> ${humidity}%"," ${soil} aarde"," ${salt} zout", "${light_intensity}lux","${altitude}m","${pressure}Pa","${temperature}°C"]'></ul-component>
-            <ul-component title="Sensor" data-array='[" Batterij: ${batterij}%"]'></ul-component>
+            <ul-component title="Plant" item-array='["vochtigheid: "," Grond: "," Zoutgehalte: "," Lichtintensiteit: "," hoogte: "," Druk: "," Temperatuur: "]' data-array='["${humidity}%"," ${soil} aarde"," ${salt} zout", "${light_intensity}lux","${altitude}m","${pressure}Pa","${temperature}°C"]'></ul-component>
+            <ul-component title="Sensor" item-array='[" Batterij: "]' data-array='["${batterij}%"]'></ul-component>
         </div>
         `;
     }
@@ -81,6 +84,7 @@ class UlComponent extends HTMLElement {
     connectedCallback() {
         const title = this.getAttribute('title');
         const dataArray = JSON.parse(this.getAttribute('data-array')) || [];
+        const itemArray = JSON.parse(this.getAttribute('item-array')) || [];
 
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = /*html*/
@@ -90,12 +94,39 @@ class UlComponent extends HTMLElement {
                 list-style-type: none;
                 padding: 0;
             }
+            .flex-container {
+                display: flex;
+                flex-direction: column;
+                border: 3px solid #fff;
+            }
+            .flex-title-child{
+                width: 100%;
+                border: 2px solid red; 
+                box-sizing: border-box;
+            }
+            .flex-child {
+                width: 40%;
+                flex: 1;
+                display: inline-block;
+                border: 2px solid red;
+                box-sizing: border-box;
+            } 
         </style>
-        <div>
-            <h1>${title}</h1>
-            <ul>
-                ${dataArray.map(item => `<li-component>${item}</li-component>`).join('')}
-            </ul>
+        <div class="flex-container">
+            <div class="flex-title-child">
+                <h1>${title}</h1>
+            </  div>
+            <div class="flex-child">
+                <ul>
+                    ${itemArray.map(item => `<li-component>${item}</li-component>`).join('')}
+                </ul>
+            </div>
+
+            <div class="flex-child">
+                <ul>
+                    ${dataArray.map(item => `<li-component>${item}</li-component>`).join('')}
+                </ul>
+            </div>
         </div>
         `;
     }
