@@ -42,8 +42,8 @@ class ContainerComponent extends HTMLElement {
             }
         </style>
         <div>
-            <ul-component title="Plant" item-array='["vochtigheid: "," Grond: "," Zoutgehalte: "," Lichtintensiteit: "," hoogte: "," Druk: "," Temperatuur: "]' data-array='["${humidity}%"," ${soil} aarde"," ${salt} zout", "${light_intensity}lux","${altitude}m","${pressure}Pa","${temperature}°C"]'></ul-component>
-            <ul-component title="Sensor" item-array='[" Batterij: "]' data-array='["${batterij}%"]'></ul-component>
+            <ul-component title="Plant" item-array='["vochtigheid:"," Grond:"," Zoutgehalte:"," Lichtintensiteit:"," hoogte:"," Druk:"," Temperatuur:"]' data-array='["${humidity}%"," ${soil} aarde"," ${salt} zout", "${light_intensity}lux","${altitude}m","${pressure}Pa","${temperature}°C"]'></ul-component>
+            <ul-component title="Sensor" item-array='[" Batterij:"]' data-array='["${batterij}%"]'></ul-component>
         </div>
         `;
     }
@@ -63,7 +63,7 @@ class LiComponent extends HTMLElement {
                 background-color: #fff;
                 margin: 10px 0;
                 padding: 10px;
-                border-radius: 8px;
+                border-radius: 4px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                 display: flex;
                 justify-content: space-between;
@@ -98,34 +98,40 @@ class UlComponent extends HTMLElement {
                 display: flex;
                 flex-direction: column;
                 border: 3px solid #fff;
+                align-items: center;
+                justify-content: center;
             }
             .flex-title-child{
                 width: 100%;
                 border: 2px solid red; 
-                box-sizing: border-box;
+            }
+            .flex-children {
+                display: flex;
+                flex-direction: row;
             }
             .flex-child {
-                width: 40%;
-                flex: 1;
-                display: inline-block;
-                border: 2px solid red;
+                padding: 0.05em;
+                width: 9em;
                 box-sizing: border-box;
             } 
         </style>
         <div class="flex-container">
             <div class="flex-title-child">
                 <h1>${title}</h1>
-            </  div>
-            <div class="flex-child">
-                <ul>
-                    ${itemArray.map(item => `<li-component>${item}</li-component>`).join('')}
-                </ul>
             </div>
 
-            <div class="flex-child">
-                <ul>
-                    ${dataArray.map(item => `<li-component>${item}</li-component>`).join('')}
-                </ul>
+            <div class="flex-children">
+                <div class="flex-child">
+                    <ul>
+                        ${itemArray.map(item => `<li-component>${item}</li-component>`).join('')}
+                    </ul>
+                </div>
+
+                <div class="flex-child">
+                    <ul>
+                        ${dataArray.map(item => `<li-component>${item}</li-component>`).join('')}
+                    </ul>
+                </div>
             </div>
         </div>
         `;
