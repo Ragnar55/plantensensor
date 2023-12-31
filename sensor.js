@@ -14,6 +14,7 @@ class SensorComponent extends HTMLElement {
         super();
         this.attachShadow({ mode: "open" });
         this.shadowRoot.appendChild(sensorTemplate.content.cloneNode(true));
+        laadData();//steekt meest recente data in variabele
     }
 }
 
@@ -21,15 +22,75 @@ customElements.define('sensor-comp', SensorComponent);
 
 // dataPage.js
 // data in var steken 
-var humidity = 83;
-var soil=19;
-var salt=0;
-var light_intensity = 500;
-var altitude= 55;
-var pressure=100;
-var temperature = 21;
+var humidity = 0;
+var soil = 0;
+var salt = 0;
+var light_intensity = 0;
+var altitude = 0;
+var pressure = 0;
+var temperature = 0;
 
-var batterij=65;
+var batterij = 0;
+
+function laadData(){//steekt normaal alle data in console en kijkt ook na welke data het juist is
+    fetch("http://plantensensor.eastus.cloudapp.azure.com:11000/api/GetAllSensorDataFromAllSensors")//als die /api/GetAllDataFromSpecifiedSensor/:sensorId zou werken ma iets is mis me die id
+                .then(response => response.json())
+                .then(data => {
+
+                    const sensorId2Data = data.filter(entry => entry.sensorId === 2);// hier is sensor,2 moet nog vervangen worden met de geselecteerde sensor
+
+                    // Create a map to store the latest entry for each type
+                    const latestEntriesMap = new Map();
+
+                    sensorId2Data.forEach(entry => {//gwn laatste data entry vinden
+                        const currentLatest = latestEntriesMap.get(entry.type);
+                        if (!currentLatest || new Date(entry.timestamp) > new Date(currentLatest.timestamp)) {
+                            latestEntriesMap.set(entry.type, entry);
+                        }
+                    });
+
+                    latestEntriesMap.forEach(entry => { // in console om te zien of et wel juist is, opnieuw alleen de laatste
+                        var test = `Type: ${entry.type}, Value: ${entry.value}, Timestamp: ${entry.timestamp}`;
+                        console.log(test);
+                        
+                    });
+
+                    latestEntriesMap.forEach(entry => {
+                        switch (entry.type) {
+                            case "humidity":
+                                humidity = entry.value;
+                                break;
+                            case "soil":
+                                soil = entry.value;
+                                break;
+                            case "salt":
+                                salt = entry.value;
+                                break;
+                            case "lux":
+                                light_intensity = entry.value;
+                                break;
+                            case "altitude":
+                                altitude = entry.value;
+                                break;
+                            case "pressure":
+                                pressure = entry.value;
+                                break;
+                            case "temperature":
+                                temperature = entry.value;
+                                break;
+                            case "battery":
+                                batterij = entry.value;
+                                break;
+                        }
+                    });
+
+
+                    
+                })
+                .catch(error => console.error("Error fetching data:", error));
+}
+
+
 
 class ContainerComponent extends HTMLElement {
     constructor() {
