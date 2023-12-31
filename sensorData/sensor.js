@@ -42,8 +42,18 @@ class ContainerComponent extends HTMLElement {
             }
         </style>
         <div>
-            <ul-component title="Plant" item-array='["vochtigheid:"," Grond:"," Zoutgehalte:"," Lichtintensiteit:"," hoogte:"," Druk:"," Temperatuur:"]' data-array='["${humidity}%"," ${soil} aarde"," ${salt} zout", "${light_intensity}lux","${altitude}m","${pressure}Pa","${temperature}°C"]'></ul-component>
-            <ul-component title="Sensor" item-array='[" Batterij:"]' data-array='["${batterij}%"]'></ul-component>
+            <ul-component title="Plant" item-array='["vochtigheid:"," Grond:"," Zoutgehalte:"," Lichtintensiteit:"," hoogte:"," Druk:"," Temperatuur:"]' data-array='["${humidity}%"," ${soil} aarde"," ${salt} zout", "${light_intensity}lux","${altitude}m","${pressure}Pa","${temperature}°C"]'>
+                <img src="../img/pressure.png" alt="Image">
+                <img src="../img/humidity.png" alt="Image">
+                <img src="../img/height.png" alt="Image">
+                <img src="../img/light.png" alt="Image">                <img src="../img/light.png" alt="Image">
+                <img src="../img/termometer.png" alt="Image">
+            </ul-component>
+
+            <ul-component title="Sensor" item-array='[" Batterij:"]' data-array='["${batterij}%"]'>
+                <img src="../img/battery.png" alt="Image">
+                <img src="../img/logo.png" alt="Image">
+            </ul-component>
         </div>
         `;
     }
@@ -121,6 +131,12 @@ class UlComponent extends HTMLElement {
             </div>
 
             <div class="flex-children">
+                <div class="flex-child">
+                    <ul>
+                        ${Array.from(this.children).map(child => `<img src="${child.innerText}">`).join('')}
+                    </ul>
+                </div>
+
                 <div class="flex-child">
                     <ul>
                         ${itemArray.map(item => `<li-component>${item}</li-component>`).join('')}
