@@ -182,7 +182,6 @@ class UlComponent extends HTMLElement {
             }
             .flex-title-child{
                 width: 100%;
-                border: 2px solid red; 
             }
             .flex-children {
                 display: flex;
