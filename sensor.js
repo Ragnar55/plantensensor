@@ -33,11 +33,11 @@ var temperature = 0;
 var batterij = 0;
 
 function laadData(){//steekt normaal alle data in console en kijkt ook na welke data het juist is
-    fetch("http://plantensensor.eastus.cloudapp.azure.com:11000/api/GetAllSensorDataFromAllSensors")//als die /api/GetAllDataFromSpecifiedSensor/:sensorId zou werken ma iets is mis me die id
+    fetch("http://plantensensor.northeurope.cloudapp.azure.com:11000/api/GetAllSensorDataFromAllSensors")//als die /api/GetAllDataFromSpecifiedSensor/:sensorId zou werken ma iets is mis me die id
                 .then(response => response.json())
                 .then(data => {
 
-                    const sensorId2Data = data.filter(entry => entry.sensorId === 2);// hier is sensor,2 moet nog vervangen worden met de geselecteerde sensor
+                    const sensorId2Data = data.filter(entry => entry.sensorId === 5);// hier is sensor,2 moet nog vervangen worden met de geselecteerde sensor
 
                     // Create a map to store the latest entry for each type
                     const latestEntriesMap = new Map();
