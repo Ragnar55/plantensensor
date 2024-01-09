@@ -45,7 +45,7 @@ Vue.component('chart-comp', {
 
             for (const id of this.uniqueSensorIds) {
                 for (const type of this.uniqueSensorTypes) {
-                    const filteredData = filterDataByTypeAndId(this.mockSensorData, type, id);
+                    const filteredData = this.filterDataByTypeAndId(this.mockSensorData, type, id);
                     if (filteredData.length === 0) continue;
                     const dataToShow = extractValues(filteredData);
                     const labelsToShow = extractTimestamps(filteredData);
@@ -99,12 +99,47 @@ new Vue({
                 })
                 .then(data => {
                     this.mockSensorData = data instanceof Array ? data : [data];
-                    this.uniqueSensorIds = getSensorIds(this.mockSensorData);
-                    this.uniqueSensorTypes = getSensorTypes(this.mockSensorData);
+                    this.uniqueSensorIds = this.getSensorIds(this.mockSensorData);
+                    this.uniqueSensorTypes = this.getSensorTypes(this.mockSensorData);
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
                 });
+        },
+        filterDataByType(mockData, sensorType) {
+            return mockData.filter(data => data.type === sensorType);
+        },
+        
+        filterDataById(mockData, sensorId) {
+            return mockData.filter(data => data.sensorId === sensorId);
+        },
+
+        getSensorIds(mdata) {
+            const uniqueIds = new Set();
+            mdata.forEach(data => {
+                uniqueIds.add(data.sensorId);
+            });
+            return Array.from(uniqueIds);        
+        },
+        
+        getSensorTypes(mdata) {
+            const uniqueTypes = new Set();
+            mdata.forEach(data => {
+                uniqueTypes.add(data.type);
+            });
+            return Array.from(uniqueTypes);        
+        },
+        
+        filterDataByTypeAndId(mdata, sensorType, sensorId) {
+            return mdata.filter(data => data.type == sensorType && data.sensorId == sensorId);
+        },
+        
+        extractValues(sensorDataArray) {
+            return sensorDataArray.map(entry => entry.value);
+        },
+        
+        extractTimestamps(sensorDataArray) {
+            return sensorDataArray.map(entry => entry.timestamp);
         },
     },
     mounted() {
