@@ -11,31 +11,41 @@ template.innerHTML = /*html*/`
         padding: 0;
         width: 7em;
         overflow: hidden;
-        background-color: #333;
+        width: 100%;
+    }
+    li {
+       display: inline-block;
+       white-space: nowrap;
     }
 
-    li button {
-        display: block;
-        color: none;
+    .button-style {
+        border-radius: 1em;
+        font-size: 1.05em;
         text-align: center;
-        padding: 2em 1em;
+
+        width: 2em;
+        display: inline-block;
+        
+        padding: 1.5em;
+        margin-right: 1em;
         text-decoration: none;
-        width: 100%;
+        width: 8em;
+        background-color: green;
     }
 
     li button:hover:not(.active) {
-        background-color: green;
+        background-color: lightgreen;
         color: white;
     }
 
     .active {
-        background-color: #04AA6D;
+        background-color: lightgreen;
     }
     </style>
     
     <ul id="navbar">
-        <li><button id="home">Home</button></li>
-        <li><button id="add">+</button></li>
+        <li><button id="home" class="button-style">Home</button></li>
+        <li><button id="add" class="button-style">+</button></li>
     </ul>
 `
 
@@ -86,6 +96,7 @@ class navComponent extends HTMLElement
     addNewSensor(){
         const newLi = document.createElement("li");
         const newSensor = document.createElement("button");
+        newSensor.classList.add("button-style");
 
         //knop tekst + id instellen
         newSensor.textContent = `Sensor ${this.counter}`;

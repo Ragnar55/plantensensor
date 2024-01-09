@@ -8,27 +8,29 @@ const template = document.createElement("template")
 template.innerHTML = /*html*/`
     <style>
     
-    :host {
-        display: flex;
-    }
-    nav-comp,
-    home-comp,
-    sensor-comp {
-        flex: 0.2;
-    }
-    
     #pageContainer {
         height: 50em;
         margin-top: 5em;
         margin-right: 2em;
         background: lightgray;
         display: flex;
-        flex-direction: column; 
-        flex: 1;
     }
-    </style>
+    h1 {
+        text-align: center;
+        font-size: 60px;
+        margin: 0;
+    }
+    #navcontainer {
+        display: flex;
+        border: 1px solid red;
+        padding: 2em;
+    }
 
-    <nav-comp></nav-comp>
+    </style>
+    <h1>Plantensensor</h1>
+    <div id="navContainer">
+        <nav-comp></nav-comp>
+    </div>
     <div id="pageContainer"></div>
 `
 
