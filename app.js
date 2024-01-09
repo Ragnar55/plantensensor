@@ -2,6 +2,8 @@
 import "./nav.js"
 import "./home.js"
 import "./sensor.js"
+import "./buttomnav.js"
+import "./sensorCharts.js"
 //#endregion IMPORTS
 
 const template = document.createElement("template")
@@ -32,6 +34,9 @@ template.innerHTML = /*html*/`
         <nav-comp></nav-comp>
     </div>
     <div id="pageContainer"></div>
+    <div id="bNavContainer">
+        <bnav-comp></bnav-comp>
+    </div>
 `
 
 class app extends HTMLElement
@@ -43,7 +48,6 @@ class app extends HTMLElement
 
         this.pageContainer = shadow.getElementById("pageContainer");
     }
-
 }
 
 customElements.define('app-comp', app)
