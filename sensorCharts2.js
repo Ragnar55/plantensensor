@@ -98,6 +98,7 @@ new Vue({
                     return response.json();
                 })
                 .then(data => {
+                    console.log('Received data:', data)
                     this.mockSensorData = data instanceof Array ? data : [data];
                     this.uniqueSensorIds = this.getSensorIds(this.mockSensorData);
                     this.uniqueSensorTypes = this.getSensorTypes(this.mockSensorData);
