@@ -16,8 +16,27 @@ chartTemplate.innerHTML = /*html*/`
         }
     </style>
     <h1>hello i am the charts page</h1>
-    <div id="chartsContainer"></div>
+    <div id="chartsContainer">
+        <canvas id="chart-0" style="margin: 20px; display: block; box-sizing: border-box; height: 300px; width: 600px;" width="600" height="300"></canvas>
+        <canvas id="chart-1" style="margin: 20px; display: block; box-sizing: border-box; height: 300px; width: 600px;" width="600" height="300"></canvas>
+        <canvas id="chart-2" style="margin: 20px; display: block; box-sizing: border-box; height: 300px; width: 600px;" width="600" height="300"></canvas>
+        <canvas id="chart-3" style="margin: 20px; display: block; box-sizing: border-box; height: 300px; width: 600px;" width="600" height="300"></canvas>
+        <canvas id="chart-4" style="margin: 20px; display: block; box-sizing: border-box; height: 300px; width: 600px;" width="600" height="300"></canvas>
+        <canvas id="chart-5" style="margin: 20px; display: block; box-sizing: border-box; height: 300px; width: 600px;" width="600" height="300"></canvas>
+        <canvas id="chart-6" style="margin: 20px; display: block; box-sizing: border-box; height: 300px; width: 600px;" width="600" height="300"></canvas>
+        <canvas id="chart-7" style="margin: 20px; display: block; box-sizing: border-box; height: 300px; width: 600px;" width="600" height="300"></canvas>
+    </div>
 `;
+
+class chartComponent extends HTMLElement
+{
+    constructor(){
+        super()
+        this.shadow = this.attachShadow({mode: "open"}) 
+        this.shadow.append(chartTemplate.content.cloneNode(true))
+        
+    }
+}
 
 Vue.component('chart-comp', {
     template: '#chart-comp-template',
@@ -36,8 +55,8 @@ Vue.component('chart-comp', {
     },
     methods: {
         updateCharts() {
-            const chartsContainer = this.$el.querySelector('#chartsContainer');
-            chartsContainer.innerHTML = '';
+            const chartsContainer = this.$el.querySelector('#chartscontainer');
+            //chartsContainer.innerHTML = '';
 
             if (this.uniqueSensorTypes.length === 0) {
                 chartsContainer.innerHTML = '<p>No sensordata found to display</p>';
@@ -147,3 +166,5 @@ new Vue({
         this.apiRequest();
     },
 });
+
+customElements.define('chart-comp', chartComponent)

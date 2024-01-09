@@ -27,26 +27,61 @@ class chartComponent extends HTMLElement
         
     }
 }
+///////////////////////// functions /////////////////////////
+function filterDataByType(mockData, sensorType) {
+    return mockData.filter(data => data.type === sensorType);
+};
+
+function filterDataById(mockData, sensorId) {
+    return mockData.filter(data => data.sensorId === sensorId);
+};
+
+function filterDataByTypeAndId (mockData, sensorType, sensorId) {
+    return mockData.filter(data => data.type == sensorType && data.sensorId == sensorId);
+};
+
+function extractValues(sensorDataArray) {
+    return sensorDataArray.map(entry => entry.value);
+};
+
+function extractTimestamps(sensorDataArray) {
+    return sensorDataArray.map(entry => entry.timestamp);
+};
+
+function getSensorTypes(mockData) {
+    const uniqueTypes = new Set();
+    mockData.forEach(data => {
+        uniqueTypes.add(data.type);
+    });
+    return Array.from(uniqueTypes);
+};
+
+function getSensorIds(mockData) {
+    const uniqueIds = new Set();
+    mockData.forEach(data => {
+        uniqueIds.add(data.sensorId);
+    });
+    return Array.from(uniqueIds);
+};
+///////////////////////////////
 
 new Vue({
     el: '#app',
     data: {
-        //mockSensorData: dataArray,
-        //uniqueSensorIds: getSensorIds(dataArray),
-        //uniqueSensorTypes: getSensorTypes(dataArray),
         mockSensorData: [],
         uniqueSensorIds: [],
         uniqueSensorTypes: [],
     },
     mounted() {
-        this.apiRequest();
-        //this.updateChart(this.uniqueSensorIds[0]);
+        this.apiRequest().then(() =>{
+            this.updateChart(this.uniqueSensorIds[0]);
+        });
     },
     methods: {
         //delete when using mockdata
         apiRequest() {
             const url = 'http://plantensensor.northeurope.cloudapp.azure.com:11000/api/GetAllSensorDataFromAllSensors';
-            fetch(url)
+            return fetch(url)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -63,24 +98,15 @@ new Vue({
                     console.error('Error fetching data:', error);
                 });
         },
-        getSensorTypes(mockData) {
-            const uniqueTypes = new Set();
-            mockData.forEach(data => {
-                uniqueTypes.add(data.type);
-            });
-            return Array.from(uniqueTypes);
-        },
         
-        getSensorIds(mockData) {
-            const uniqueIds = new Set();
-            mockData.forEach(data => {
-                uniqueIds.add(data.sensorId);
-            });
-            return Array.from(uniqueIds);
-        },
-
         updateChart(sensorId) {
             const chartsContainer = document.getElementById('chartsContainer');
+            
+            if (!chartsContainer) {
+                console.error('Charts container not found!');
+                return;
+            }
+
             chartsContainer.innerHTML = '';
 
             if (this.uniqueSensorTypes.length === 0) {
@@ -95,6 +121,7 @@ new Vue({
                 this.generateChart(chartsContainer, dataToShow, labelsToShow, type);               
             }
         },
+
         generateChart(chartsContainer, dataToShow, labelsToShow, type) {
             const canvas = document.createElement('canvas');
             canvas.style.margin = '20px';
@@ -117,6 +144,5 @@ new Vue({
         }
     }
 });
-
 
 customElements.define('chart-comp', chartComponent)
