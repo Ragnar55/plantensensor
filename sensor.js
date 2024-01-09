@@ -11,10 +11,11 @@ sensorTemplate.innerHTML = /*html*/`
 
 class SensorComponent extends HTMLElement {
     constructor() {
+        laadData();//steekt meest recente data in variabele
         super();
         this.attachShadow({ mode: "open" });
         this.shadowRoot.appendChild(sensorTemplate.content.cloneNode(true));
-        laadData();//steekt meest recente data in variabele
+        
     }
 }
 
@@ -32,12 +33,12 @@ var temperature = 0;
 
 var batterij = 0;
 
-function laadData(){//steekt normaal alle data in console en kijkt ook na welke data het juist is
+function laadData(id){//haalt alle data op,filterd ze, laat ze zien in console en zet ze in variabele 
     fetch("http://plantensensor.northeurope.cloudapp.azure.com:11000/api/GetAllSensorDataFromAllSensors")//als die /api/GetAllDataFromSpecifiedSensor/:sensorId zou werken ma iets is mis me die id
                 .then(response => response.json())
                 .then(data => {
 
-                    const sensorId2Data = data.filter(entry => entry.sensorId === 5);// hier is sensor,2 moet nog vervangen worden met de geselecteerde sensor
+                    const sensorId2Data = data.filter(entry => entry.sensorId === id);// hier is sensor,2 moet nog vervangen worden met de geselecteerde sensor
 
                     // Create a map to store the latest entry for each type
                     const latestEntriesMap = new Map();
@@ -55,7 +56,7 @@ function laadData(){//steekt normaal alle data in console en kijkt ook na welke 
                         
                     });
 
-                    latestEntriesMap.forEach(entry => {
+                    latestEntriesMap.forEach(entry => {//steekt alle data in apparte variabele
                         switch (entry.type) {
                             case "humidity":
                                 humidity = entry.value;
