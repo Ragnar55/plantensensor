@@ -115,24 +115,24 @@ new Vue({
             return mockData.filter(data => data.sensorId === sensorId);
         },
 
-        getSensorIds(mdata) {
+        getSensorIds(mockData) {
             const uniqueIds = new Set();
-            mdata.forEach(data => {
+            mockData.forEach(data => {
                 uniqueIds.add(data.sensorId);
             });
             return Array.from(uniqueIds);        
         },
         
-        getSensorTypes(mdata) {
+        getSensorTypes(mockData) {
             const uniqueTypes = new Set();
-            mdata.forEach(data => {
+            mockData.forEach(data => {
                 uniqueTypes.add(data.type);
             });
             return Array.from(uniqueTypes);        
         },
         
-        filterDataByTypeAndId(mdata, sensorType, sensorId) {
-            return mdata.filter(data => data.type == sensorType && data.sensorId == sensorId);
+        filterDataByTypeAndId(mockData, sensorType, sensorId) {
+            return mockData.filter(data => data.type == sensorType && data.sensorId == sensorId);
         },
         
         extractValues(sensorDataArray) {
