@@ -99,14 +99,14 @@ class ContainerComponent extends HTMLElement {
         this.shadowRoot.innerHTML = /*html*/
             `
         <style>
-            
+
             div{
                 margin: 2em;
             }
         </style>
         <div>
-            <ul-component title="Plant" item-array='["Vochtigheid:"," Grond:"," Zoutgehalte:"," Lichtintensiteit:"," Hoogte:"," Druk:"," Temperatuur:"]'
-                                        data-array='["${humidity}%"," ${soil} aarde"," ${salt} zout", "${light_intensity}lux","${altitude}m","${pressure}Pa","${temperature}°C"]'>
+            <ul-component title="Plant" item-array='["Luchtvochtigheid:","Bodemvochtigheid:"," Zoutgehalte:"," Lichtintensiteit:"," Hoogte:"," Druk:"," Temperatuur:"]'
+                                        data-array='["${humidity}%"," ${soil}%"," ${salt}", "${light_intensity}lux","${altitude}m","${pressure}hPa","${temperature}°C"]'>
                 <!--
                 <img src="/img/pressure.png" alt="Image"> is juist
                 <img src="../img/humidity.png" alt="Image">
@@ -189,7 +189,7 @@ class UlComponent extends HTMLElement {
             }
             .flex-child {
                 padding: 0.05em;
-                width: 9em;
+                width: 10.5em;
                 box-sizing: border-box;
             } 
             strong {
