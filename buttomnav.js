@@ -71,7 +71,7 @@ class bNavComponent extends HTMLElement
         const tableComponent = document.createElement("chart-comp");
 
         pageContainer.appendChild(tableComponent);
-        console.log("displayTable")
+        console.log("displayChart")
     }
 
     displayTable(sensorId){
@@ -86,7 +86,7 @@ class bNavComponent extends HTMLElement
         sensorComponent.setAttribute("id", sensorId);
 
         pageContainer.appendChild(sensorComponent);
-        console.log("displaySensor")
+        console.log("displayTable")
     }
 
     connectedCallback()

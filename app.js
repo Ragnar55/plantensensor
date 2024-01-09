@@ -3,7 +3,7 @@ import "./nav.js"
 import "./home.js"
 import "./sensor.js"
 import "./buttomnav.js"
-import "./sensorCharts.js"
+import "./sensorCharts2.js"
 //#endregion IMPORTS
 
 const template = document.createElement("template")

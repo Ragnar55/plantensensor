@@ -63,6 +63,22 @@ new Vue({
                     console.error('Error fetching data:', error);
                 });
         },
+        getSensorTypes(mockData) {
+            const uniqueTypes = new Set();
+            mockData.forEach(data => {
+                uniqueTypes.add(data.type);
+            });
+            return Array.from(uniqueTypes);
+        },
+        
+        getSensorIds(mockData) {
+            const uniqueIds = new Set();
+            mockData.forEach(data => {
+                uniqueIds.add(data.sensorId);
+            });
+            return Array.from(uniqueIds);
+        },
+
         updateChart(sensorId) {
             const chartsContainer = document.getElementById('chartsContainer');
             chartsContainer.innerHTML = '';
