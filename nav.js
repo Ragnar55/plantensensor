@@ -1,5 +1,5 @@
 //#region IMPORTS
-
+import "./sensor.js"//moet die laaddata doen
 //#endregion IMPORTS
 
 const template = document.createElement("template")
