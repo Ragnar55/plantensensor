@@ -3,7 +3,7 @@ import "./nav.js"
 import "./home.js"
 import "./sensor.js"
 import "./sidenav.js"
-import "./sensorcharts.js"
+import "./sensorCharts.js"
 //#endregion IMPORTS
 
 const template = document.createElement("template")
@@ -13,8 +13,7 @@ template.innerHTML = /*html*/`
         margin-top: 5em;
         width: 200em;
         height: 100em;
-        border: solid blue;
-    }
+        }
     h1 {
         text-align: center;
         font-size: 4em;
@@ -27,12 +26,10 @@ template.innerHTML = /*html*/`
     #bNavContainer {
         padding: 2em;
         margin-top: 5em;
-        border: solid red;
     }
     #pageAndbNAv {
         display: flex;
         width: 100%;
-        border: solid green;
     }
     </style>
     <h1>Plantensensor</h1>

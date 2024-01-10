@@ -161,6 +161,9 @@ class UlComponent extends HTMLElement {
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = /*html*/`
             <style>
+                h1 {
+                    text-align: center;
+                }
                 ul {
                     list-style-type: none;
                     padding: 0;
@@ -190,7 +193,7 @@ class UlComponent extends HTMLElement {
             </style>
             <div class="flex-container">
                 <div class="flex-title-child">
-                    <h1>${title}</h1>
+                    <h1>${title + ":"}</h1>
                 </div>
 
                 <div class="flex-children">

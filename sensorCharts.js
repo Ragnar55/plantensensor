@@ -51,7 +51,6 @@ chartTemplate.innerHTML = /*html*/`
         canvas {
             display: block;
             box-sizing: border-box;
-            border: solid yellow;
         }
     </style>
     <h1>sensor x charts</h1>
