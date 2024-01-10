@@ -12,6 +12,7 @@ sensorTemplate.innerHTML = /*html*/`
 class SensorComponent extends HTMLElement {
     constructor() {
         laadData(5);//steekt meest recente data in variabele
+        //moet hier eigelijk niet staan want pagina laadt eerst en dan pas de data, dus laat gwn default vallues van hier beneden
         super();
         this.attachShadow({ mode: "open" });
         this.shadowRoot.appendChild(sensorTemplate.content.cloneNode(true));
@@ -22,7 +23,7 @@ class SensorComponent extends HTMLElement {
 customElements.define('sensor-comp', SensorComponent);
 
 // dataPage.js
-// data in var steken 
+// data parameters
 var humidity = 0;
 var soil = 0;
 var salt = 0;
