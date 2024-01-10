@@ -44,15 +44,14 @@ chartTemplate.innerHTML = /*html*/`
         #chartsContainer {
             display: flex;
             flex-wrap: wrap;
-            height: 20em;
+            height: 18em;
             align-items: center;
             justify-content: center;
         }
         canvas {
-            margin: 20px auto;
             display: block;
             box-sizing: border-box;
-            width: 100em;
+            border: solid yellow;
         }
     </style>
     <h1>sensor x charts</h1>
