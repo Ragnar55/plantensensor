@@ -94,6 +94,13 @@ class ContainerComponent extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });//hierna word data+voorzetsel+figuur meegegeven
         this.shadowRoot.innerHTML = /*html*/`
+            <style>
+            h1 {
+                text-align: center;
+                font-size: 3em;
+            }
+        </style>    
+        <h1>sensor x Table</h1>
             <div>
                 <ul-component title="Plant" item-array='["Luchtvochtigheid:","Bodemvochtigheid:"," Zoutgehalte:"," Lichtintensiteit:"," Hoogte:"," Druk:"," Temperatuur:"]'
                                             data-array='["${humidity}%"," ${soil}%"," ${salt}", "${light_intensity}lux","${altitude}m","${pressure}hPa","${temperature}°C"]'>
