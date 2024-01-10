@@ -7,8 +7,8 @@ bnavtemplate.innerHTML = /*html*/`
     <style>
     ul {
         list-style-type: none;
-        margin-top: 5em;
-        padding: 0;
+        margin-top: 0;
+        padding-top: 0;
         width: 7em;
         overflow: hidden;
         width: 100%;
@@ -16,6 +16,7 @@ bnavtemplate.innerHTML = /*html*/`
     li {
        display: inline-block;
        white-space: nowrap;
+       padding-bottom: 1em;
     }
 
     .button-style {
@@ -30,12 +31,11 @@ bnavtemplate.innerHTML = /*html*/`
         margin-right: 1em;
         text-decoration: none;
         width: 8em;
-        background-color: green;
+        background-color: #A4DEDF;
     }
 
     li button:hover:not(.active) {
-        background-color: lightgreen;
-        color: white;
+        background-color: #BEE7E8;
     }
 
     .active {

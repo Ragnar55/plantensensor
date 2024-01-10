@@ -8,7 +8,7 @@ template.innerHTML = /*html*/`
     ul {
         list-style-type: none;
         margin-top: 5em;
-        padding: 0;
+        padding-left: 2em;
         width: 7em;
         overflow: hidden;
         width: 100%;
@@ -30,17 +30,13 @@ template.innerHTML = /*html*/`
         margin-right: 1em;
         text-decoration: none;
         width: 8em;
-        background-color: green;
+        background-color: #A4DEDF;
     }
 
     li button:hover:not(.active) {
-        background-color: lightgreen;
-        color: white;
+        background-color: #BEE7E8;
     }
 
-    .active {
-        background-color: lightgreen;
-    }
     </style>
     
     <ul id="navbar">

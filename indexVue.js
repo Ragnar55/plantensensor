@@ -1,44 +1,3 @@
-const chartTemplate = document.createElement("template");
-chartTemplate.innerHTML = /*html*/`
-    <style>
-        h1 {
-            color: blue;
-        }
-        #chartsContainer {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        canvas {
-            margin: 20px;
-            display: block;
-            box-sizing: border-box;
-            height: 300px;
-            width: 600px;
-        }
-    </style>
-    <h1>hello i am the charts page</h1>
-    <div id="chartsContainer">
-        <canvas id="chart-0"></canvas>
-        <canvas id="chart-1"></canvas>
-        <canvas id="chart-2"></canvas>
-        <canvas id="chart-3"></canvas>
-        <canvas id="chart-4"></canvas>
-        <canvas id="chart-5"></canvas>
-        <canvas id="chart-6"></canvas>
-        <canvas id="chart-7"></canvas>
-    </div>
-`;
-
-class chartComponent extends HTMLElement
-{
-    constructor(){
-        super()
-        this.shadow = this.attachShadow({mode: "open"}) 
-        this.shadow.append(chartTemplate.content.cloneNode(true))
-        
-    }
-}
-///////////////////////// functions /////////////////////////
 function filterDataByType(mockData, sensorType) {
     return mockData.filter(data => data.type === sensorType);
 };
@@ -53,11 +12,11 @@ function filterDataByTypeAndId (mockData, sensorType, sensorId) {
 
 function extractValues(sensorDataArray) {
     return sensorDataArray.map(entry => entry.value);
-};
+}
 
 function extractTimestamps(sensorDataArray) {
     return sensorDataArray.map(entry => entry.timestamp);
-};
+}
 
 function getSensorTypes(mockData) {
     const uniqueTypes = new Set();
@@ -73,26 +32,22 @@ function getSensorIds(mockData) {
         uniqueIds.add(data.sensorId);
     });
     return Array.from(uniqueIds);
-};
-///////////////////////////////
+}
 
-new Vue({
-    el: '#app',
+Vue.component('chart-comp', {
+    template: '#chart-template',
     data: {
         mockSensorData: [],
         uniqueSensorIds: [],
         uniqueSensorTypes: [],
     },
     mounted() {
-        this.apiRequest().then(() =>{
-            this.updateChart(this.uniqueSensorIds[0]);
-        });
+        this.apiRequest();
     },
     methods: {
-        //delete when using mockdata
         apiRequest() {
             const url = 'http://plantensensor.northeurope.cloudapp.azure.com:11000/api/GetAllSensorDataFromAllSensors';
-            return fetch(url)
+            fetch(url)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -109,16 +64,9 @@ new Vue({
                     console.error('Error fetching data:', error);
                 });
         },
-        
         updateChart(sensorId) {
-            const chartsContainer = document.getElementById('chartsContainer');
-            
-            if (!chartsContainer) {
-                console.error('Charts container not found!');
-                return;
-            }
-
-            chartsContainer.innerHTML = '';
+            const chartsContainer = this.chartsContainer;
+            this.chartsContainer.innerHTML = '';
 
             if (this.uniqueSensorTypes.length === 0) {
                 chartsContainer.innerHTML = '<p>No sensordata found to display</p>';
@@ -132,7 +80,6 @@ new Vue({
                 this.generateChart(chartsContainer, dataToShow, labelsToShow, type);               
             }
         },
-
         generateChart(chartsContainer, dataToShow, labelsToShow, type) {
             const canvas = document.createElement('canvas');
             canvas.style.margin = '20px';
@@ -155,5 +102,3 @@ new Vue({
         }
     }
 });
-
-customElements.define('chart-comp', chartComponent)

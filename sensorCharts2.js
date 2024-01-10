@@ -10,6 +10,7 @@ chartTemplate.innerHTML = /*html*/`
         }
         canvas {
             margin: 20px;
+            display: block;
             box-sizing: border-box;
             height: 300px;
             width: 600px;
@@ -17,14 +18,14 @@ chartTemplate.innerHTML = /*html*/`
     </style>
     <h1>hello i am the charts page</h1>
     <div id="chartsContainer">
-        <canvas id="chart-0" style="margin: 20px; display: block; box-sizing: border-box; height: 300px; width: 600px;" width="600" height="300"></canvas>
-        <canvas id="chart-1" style="margin: 20px; display: block; box-sizing: border-box; height: 300px; width: 600px;" width="600" height="300"></canvas>
-        <canvas id="chart-2" style="margin: 20px; display: block; box-sizing: border-box; height: 300px; width: 600px;" width="600" height="300"></canvas>
-        <canvas id="chart-3" style="margin: 20px; display: block; box-sizing: border-box; height: 300px; width: 600px;" width="600" height="300"></canvas>
-        <canvas id="chart-4" style="margin: 20px; display: block; box-sizing: border-box; height: 300px; width: 600px;" width="600" height="300"></canvas>
-        <canvas id="chart-5" style="margin: 20px; display: block; box-sizing: border-box; height: 300px; width: 600px;" width="600" height="300"></canvas>
-        <canvas id="chart-6" style="margin: 20px; display: block; box-sizing: border-box; height: 300px; width: 600px;" width="600" height="300"></canvas>
-        <canvas id="chart-7" style="margin: 20px; display: block; box-sizing: border-box; height: 300px; width: 600px;" width="600" height="300"></canvas>
+        <canvas id="chart-0"></canvas>
+        <canvas id="chart-1"></canvas>
+        <canvas id="chart-2"></canvas>
+        <canvas id="chart-3"></canvas>
+        <canvas id="chart-4"></canvas>
+        <canvas id="chart-5"></canvas>
+        <canvas id="chart-6"></canvas>
+        <canvas id="chart-7"></canvas>
     </div>
 `;
 
@@ -34,12 +35,13 @@ class chartComponent extends HTMLElement
         super()
         this.shadow = this.attachShadow({mode: "open"}) 
         this.shadow.append(chartTemplate.content.cloneNode(true))
-        
     }
 }
 
+customElements.define('chart-comp', chartComponent)
+
 Vue.component('chart-comp', {
-    template: '#chart-comp-template',
+    template: '#chart-template',
     props: {
         mockSensorData: Array,
         uniqueSensorIds: Array,
@@ -166,5 +168,3 @@ new Vue({
         this.apiRequest();
     },
 });
-
-customElements.define('chart-comp', chartComponent)
