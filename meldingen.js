@@ -44,28 +44,17 @@ class meldingenComponent extends HTMLElement
         //checkIfMeldingenAreNeeded functie elke 10 seconden aanroepen
         this.intervalId = setInterval(this.checkIfMeldingenAreNeeded.bind(this), 10000);
     }
-    
-    connectedCallback()
-    {        
-        console.log("connected callback called");
-        laadData();
-    }
+
     checkIfMeldingenAreNeeded(){
         console.log(`Low soil humidity for these sensors: ${drySoil}`);
         console.log(`Low battery for these sensors: ${lowBattery}`);
         const meldingenbox = this.shadowRoot.getElementById('meldingenBox');
 
-        //meldingen verwijderen als ze niet meer relevant zijn
-        meldingenbox.querySelectorAll('h1').forEach((message) => {
-            const id = message.dataset.sensorId;
-            if (!drySoil.includes(id) && !lowBattery.includes(id)) {
-                message.remove();
-            }
-        });
+        //elke 10 sec wordt de code uitgevoerd, dus oude knoppen moeten verwijderd worden
+        meldingenbox.querySelectorAll('#water, #batterij').forEach(button => button.remove());
 
         if (drySoil.length > 0){
             drySoil.forEach(id =>{
-                if (!meldingenbox.querySelector(`h1[data-sensor-id="${id}"]`)) {
                     const waterMelding = document.createElement('h1');
 
                     waterMelding.textContent = `Let op: Plant ${id} heeft water nodig`;
@@ -73,13 +62,11 @@ class meldingenComponent extends HTMLElement
                     waterMelding.dataset.sensorId = id;
 
                     meldingenbox.appendChild(waterMelding);
-                }
             });
         }
 
         if (lowBattery.length > 0){
             lowBattery.forEach(id =>{
-                if (!meldingenbox.querySelector(`h1[data-sensor-id="${id}"]`)) {
                     const batterijMelding = document.createElement('h1');
 
                     batterijMelding.textContent = `Let op: sensor ${id} heeft een laag batterijniveau`;
@@ -87,7 +74,6 @@ class meldingenComponent extends HTMLElement
                     batterijMelding.dataset.sensorId = id;
 
                     meldingenbox.appendChild(batterijMelding);
-                }
             });
         }
     }

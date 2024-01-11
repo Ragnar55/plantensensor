@@ -12,9 +12,7 @@ function getSensorIds(sensorData) {
 function setCurrentSensorId(sensorId){
     sessionStorage.setItem('currentSensorId', sensorId)
 }
-function getCurrentSensorId(){
-    return sessionStorage.getItem('currentSensorId');
-}
+
 const template = document.createElement("template")
 template.innerHTML = /*html*/`
     <style>
@@ -153,13 +151,12 @@ class navComponent extends HTMLElement
                 console.log(`data loaded for id ${id}`);
             });
             setCurrentSensorId("home");
-            console.log("Current ID:", getCurrentSensorId());
         })
         .catch(error => {
             console.error("Error fetching data:", error);
         });
     }
-
+    
     connectedCallback()
     {        
         console.log("connected callback called");
@@ -168,11 +165,9 @@ class navComponent extends HTMLElement
 
     ChangePageEvent(id){
         console.log("ChangePageEvent called for ID:", id);
-        console.log("Current ID:", getCurrentSensorId());
         //console.log("Last ID:", this.lastId);
 
         setCurrentSensorId(id);
-        const currentId = getCurrentSensorId();
 
         if (id == "home") {
             this.addHomeComponent();
