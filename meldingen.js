@@ -5,15 +5,23 @@ import { laadData, lowBattery, drySoil } from "./sensor.js";
 const homeTemplate = document.createElement("template")
 homeTemplate.innerHTML = /*html*/`
     <style>
+        #meldingenBox{
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            margin-right: 5em;
+            margin-left: 5em;
+        }
+
         #batterij, #water{
             text-align: center;
             font-size: 1.3em;
             padding: 1em;
-            margin-right: 5em;
-            margin-left: 5em;
             width: fit-content;
             border-radius: 0.5em;
             display: flex;
+            Margin-right: 0.5em;
+            margin-left: 0.5em;
         }
         #batterij{
             background-color: #FFFF33;
@@ -23,10 +31,7 @@ homeTemplate.innerHTML = /*html*/`
         }
 
     </style>
-    <div id="meldingenBox">
-        <h1 id="batterij">Let op: sensor x heeft een laag batterijniveau</h1>
-        <h1 id="water">Let op: Plant x heeft water nodig</h1>
-    </div>
+    <div id="meldingenBox"></div>
 `
 
 class meldingenComponent extends HTMLElement
@@ -50,21 +55,39 @@ class meldingenComponent extends HTMLElement
         console.log(`Low battery for these sensors: ${lowBattery}`);
         const meldingenbox = this.shadowRoot.getElementById('meldingenBox');
 
+        //meldingen verwijderen als ze niet meer relevant zijn
+        meldingenbox.querySelectorAll('h1').forEach((message) => {
+            const id = message.dataset.sensorId;
+            if (!drySoil.includes(id) && !lowBattery.includes(id)) {
+                message.remove();
+            }
+        });
+
         if (drySoil.length > 0){
             drySoil.forEach(id =>{
-                const waterMelding = document.createElement('h1');
-                waterMelding.textContent = `Let op: Plant ${id} heeft water nodig`;
-                waterMelding.id = 'water';
-                meldingenbox.appendChild(waterMelding);
+                if (!meldingenbox.querySelector(`h1[data-sensor-id="${id}"]`)) {
+                    const waterMelding = document.createElement('h1');
+
+                    waterMelding.textContent = `Let op: Plant ${id} heeft water nodig`;
+                    waterMelding.id = 'water';
+                    waterMelding.dataset.sensorId = id;
+
+                    meldingenbox.appendChild(waterMelding);
+                }
             });
         }
 
         if (lowBattery.length > 0){
             lowBattery.forEach(id =>{
-                const batterijMelding = document.createElement('h1');
-                batterijMelding.textContent = `Let op: sensor ${id} heeft een laag batterijniveau`;
-                batterijMelding.id = 'batterij';
-                meldingenbox.appendChild(batterijMelding);
+                if (!meldingenbox.querySelector(`h1[data-sensor-id="${id}"]`)) {
+                    const batterijMelding = document.createElement('h1');
+
+                    batterijMelding.textContent = `Let op: sensor ${id} heeft een laag batterijniveau`;
+                    batterijMelding.id = 'batterij';
+                    batterijMelding.dataset.sensorId = id;
+
+                    meldingenbox.appendChild(batterijMelding);
+                }
             });
         }
     }

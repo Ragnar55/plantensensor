@@ -11,7 +11,6 @@ const template = document.createElement("template")
 template.innerHTML = /*html*/`
     <style>
     #pageContainer {
-        margin-top: 5em;
         width: 200em;
         height: 100em;
         }
