@@ -106,7 +106,10 @@ class navComponent extends HTMLElement
             newLi.appendChild(newSensor);
 
             //eventlistener toevoegen aan de nieuwe buttons
-            newSensor.addEventListener('mousedown', () => this.ChangePageEvent(sensorId));
+            newSensor.addEventListener('mousedown', (event) =>{
+                this.ChangePageEvent(sensorId);
+                setCurrentSensorId(sensorId);
+            });
         });
     }
     
@@ -154,18 +157,16 @@ class navComponent extends HTMLElement
         console.log("connected callback called");
         this.laadIdData();
 
-        let lastId = 0; //buiten changePageEvent declaren zodat lastId aangepast kan blijven worden
-        let resetId = 0;
-        setCurrentSensorId(resetId);
-
+        const startSensorId = null;
+        setCurrentSensorId(startSensorId);
         console.log("Current ID:", getCurrentSensorId());
-        console.log("last ID:", lastId);
+        //console.log("last ID:", lastId);
     }
 
     ChangePageEvent(id){
         console.log("ChangePageEvent called for ID:", id);
         console.log("Current ID:", getCurrentSensorId());
-        console.log("Last ID:", this.lastId);
+        //console.log("Last ID:", this.lastId);
 
         setCurrentSensorId(id);
         const currentId = getCurrentSensorId();
@@ -174,14 +175,15 @@ class navComponent extends HTMLElement
             this.addHomeComponent();
         } 
         else{
-
+            this.displaySensor(id);
+            /*
             if (currentId != this.lastId){          // zorgt ervoor dat de page niet terug naar table switcht
                 this.lastId = currentId;            // als dezelfde sensor opnieuw geselecteerd wordt in grafiek weergave
                 this.displaySensor(id);
             }
             else{
                 return;
-            }
+            }*/
         }
         
         this.dispatchEvent(new CustomEvent("ChangePageEvent", {
