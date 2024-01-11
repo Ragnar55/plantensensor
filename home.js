@@ -43,6 +43,44 @@ class homeComponent extends HTMLElement
             console.log("home sensor ids", this.uniqueSensorIds);
             
             this.addSensors();
+
+            /////////////////////////////////////////////////////// ben maar get aant probere
+            const latestEntriesMap = new Map();
+            data.forEach(entry => {//gwn laatste data entry vinden
+                const currentLatest = latestEntriesMap.get(entry.type);
+                if (!currentLatest || new Date(entry.timestamp) > new Date(currentLatest.timestamp)) {
+                    latestEntriesMap.set(entry.type, entry);
+                }
+            });
+    
+            latestEntriesMap.forEach(entry => {//steekt alle data in apparte variabele, default values overschrijven
+                switch (entry.type) {
+                    case "humidity":
+                        humidity = entry.value;
+                        break;
+                    case "soil":
+                        soil = entry.value;
+                        break;
+                    case "salt":
+                        salt = entry.value;
+                        break;
+                    case "lux":
+                        light_intensity = entry.value;
+                        break;
+                    case "altitude":
+                        altitude = entry.value;
+                        break;
+                    case "pressure":
+                        pressure = entry.value;
+                        break;
+                    case "temperature":
+                        temperature = entry.value;
+                        break;
+                    case "battery":
+                        batterij = entry.value;
+                        break;
+                }
+            });
         })
         .catch(error => {
             console.error("Error fetching data:", error);
@@ -62,10 +100,10 @@ class homeComponent extends HTMLElement
             battery.id = `battery-${sensorId}`;
             sensors.appendChild(battery);
 
-            this.displayBattery(sensorId);
+            //this.displayBattery(sensorId);
         });
     }
-
+/*
     displayBattery(sensorId){
         const batteryDiv = this.shadow.getElementById(`battery-${sensorId}`);
         batteryDiv.innerHTML = "";
@@ -82,7 +120,7 @@ class homeComponent extends HTMLElement
                 console.error(`Error fetching battery data for Sensor ${sensorId}:`, error);
             });
     }
-
+*/
     connectedCallback()
     {        
         console.log("home connected callback called");

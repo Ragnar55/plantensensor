@@ -9,7 +9,12 @@ function getSensorIds(sensorData) {
     });
     return Array.from(uniqueIds);
 }
-
+function setCurrentSensorId(sensorId){
+    sessionStorage.setItem('currentSensorId', sensorId)
+}
+function getCurrentSensorId(){
+    return sessionStorage.getItem('currentSensorId');
+}
 const template = document.createElement("template")
 template.innerHTML = /*html*/`
     <style>
@@ -59,38 +64,19 @@ class navComponent extends HTMLElement
 
         this.shadow = this.attachShadow({mode: "open"});
         this.shadow.append(template.content.cloneNode(true));
-        
-        this.button = this.shadowRoot.querySelectorAll("button");
-        this.currentPage = null;
-
-        this.homeComponentAdded = false;
-
-        // nieuwe sensorbutton toevoegen
-        this.button.forEach(btn => {
-            btn.addEventListener('mousedown', (e) =>{
-                console.log("btn Clicked");
-                    this.ChangePageEvent(btn.getAttribute("id"));
-            });
-        });
     }
     
     addHomeComponent() {
-        const existingHomeComponent = this.shadowRoot.querySelector("#pageContainer home-comp");
-        
-        if (!existingHomeComponent) {
-            const homeComponent = document.createElement("home-comp");
-            homeComponent.setAttribute("id", "home");
+        const homeComponent = document.createElement("home-comp");
+        homeComponent.setAttribute("id", "home");
 
-            const appShadow = document.querySelector('app-comp').shadowRoot;
-            const pageContainer = appShadow.getElementById("pageContainer");
+        const appShadow = document.querySelector('app-comp').shadowRoot;
+        const pageContainer = appShadow.getElementById("pageContainer");
 
-            // Clear existing components
-            pageContainer.innerHTML = '';
-
-            pageContainer.appendChild(homeComponent);
-            this.currentPage = homeComponent;
-            document.querySelector('app-comp').hideBNav();
-        }
+        // Clear existing components
+        pageContainer.appendChild(homeComponent);
+        this.currentPage = homeComponent;
+        document.querySelector('app-comp').hideBNav();
     }
 
     addSensors(){
@@ -116,13 +102,13 @@ class navComponent extends HTMLElement
 
             //optie om de sensor een andere naam te geven
             newSensor.addEventListener('contextmenu', (event) =>{
-            event.preventDefault();
+                event.preventDefault();
 
-            const newName = prompt('Enter a new name for the sensor:', newSensor.textContent);
-            if (newName !== null){
-                newSensor.textContent = newName
-            }
-        });
+                const newName = prompt('Enter a new name for the sensor:', newSensor.textContent);
+                if (newName !== null){
+                    newSensor.textContent = newName
+                }
+            });
         });
     }
     
@@ -166,31 +152,19 @@ class navComponent extends HTMLElement
     {        
         console.log("connected callback called");
         this.laadData();
-
-        this.button.forEach(btn => {
-            btn.addEventListener('mousedown', (e) =>{
-                this.ChangePageEvent(btn.getAttribute("id"))
-            }, {once: true}); //voorkomt dat er 2 eventlisteners met de home button verbonden zijn
-        });
-
-        if (!this.homeComponentAdded) {
-            this.homeComponentAdded = true;
-        }
     }
 
+    lastId = 0; //buiten changePageEvent declaren zodat lastId aangepast kan blijven worden
     ChangePageEvent(id){
         console.log("ChangePageEvent called for ID:", id);
-        if (id === "home") {
+        if (id == "home") {
             this.addHomeComponent();
-            return;
         } 
         else{
-            console.log("Displaying sensor:", id);
-            const lastId = this.getCurrentSensorId();
-            this.setCurrentSensorId(id);
-            const currentId = this.getCurrentSensorId();
-
-            if (currentId != lastId){
+            setCurrentSensorId(id);
+            const currentId = getCurrentSensorId();
+            if (currentId != this.lastId){
+                this.lastId = currentId;
                 this.displaySensor(currentId);
             }
             else{
@@ -203,13 +177,6 @@ class navComponent extends HTMLElement
             composed: true,
             detail: id
         }));
-    }
-    
-    setCurrentSensorId(sensorId){
-        sessionStorage.setItem('currentSensorId', sensorId)
-    }
-    getCurrentSensorId(){
-        return sessionStorage.getItem('currentSensorId');
     }
 }
 

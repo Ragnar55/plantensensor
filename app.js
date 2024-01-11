@@ -1,5 +1,5 @@
 //#region IMPORTS
-import "./nav.js"
+import "./nav2.js"
 import "./home.js"
 import "./sensor.js"
 import "./sidenav.js"

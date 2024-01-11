@@ -3,6 +3,7 @@
 function getCurrentSensorId(){
     return sessionStorage.getItem('currentSensorId');
 }
+
 //alles van de sensor pagina webcomponent zelf
 const sensorTemplate = document.createElement("template");
 sensorTemplate.innerHTML = /*html*/`
@@ -14,7 +15,8 @@ class SensorComponent extends HTMLElement {
         super();
         this.attachShadow({ mode: "open" });
         this.shadowRoot.appendChild(sensorTemplate.content.cloneNode(true));
-        laadData(5);
+        const huidigID = getCurrentSensorId();
+        laadData(huidigID);
         //steekt meest recente data in variabele
         //moet hier eigelijk niet staan want pagina laadt eerst en dan pas de data, dus laat gewoon default vallues van hier beneden
     }
