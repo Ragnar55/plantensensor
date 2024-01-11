@@ -1,13 +1,13 @@
-function filterDataByType(mockData, sensorType) {
-    return mockData.filter(data => data.type === sensorType);
+function filterDataByType(sensorData, sensorType) {
+    return sensorData.filter(data => data.type === sensorType);
 };
 
-function filterDataById(mockData, sensorId) {
-    return mockData.filter(data => data.sensorId === sensorId);
+function filterDataById(sensorData, sensorId) {
+    return sensorData.filter(data => data.sensorId === sensorId);
 };
 
-function filterDataByTypeAndId (mockData, sensorType, sensorId) {
-    return mockData.filter(data => data.type == sensorType && data.sensorId == sensorId);
+function filterDataByTypeAndId (sensorData, sensorType, sensorId) {
+    return sensorData.filter(data => data.type == sensorType && data.sensorId == sensorId);
 };
 
 function extractValues(sensorDataArray) {
@@ -18,20 +18,23 @@ function extractTimestamps(sensorDataArray) {
     return sensorDataArray.map(entry => entry.timestamp);
 }
 
-function getSensorTypes(mockData) {
+function getSensorTypes(sensorData) {
     const uniqueTypes = new Set();
-    mockData.forEach(data => {
+    sensorData.forEach(data => {
         uniqueTypes.add(data.type);
     });
     return Array.from(uniqueTypes);
 };
 
-function getSensorIds(mockData) {
+function getSensorIds(sensorData) {
     const uniqueIds = new Set();
-    mockData.forEach(data => {
+    sensorData.forEach(data => {
         uniqueIds.add(data.sensorId);
     });
     return Array.from(uniqueIds);
+}
+function getCurrentSensorId(){
+    return sessionStorage.getItem('currentSensorId');
 }
 
 const chartTemplate = document.createElement("template");
@@ -53,7 +56,7 @@ chartTemplate.innerHTML = /*html*/`
             box-sizing: border-box;
         }
     </style>
-    <h1>sensor x charts</h1>
+    <h1>sensor x grafieken</h1>
     <div id="chartsContainer"></div>
 `;
 
@@ -65,14 +68,18 @@ class chartComponent extends HTMLElement {
     }
 
     connectedCallback() {
+        const currentSensor = getCurrentSensorId(); //vraag de huidige sensorid
+        this.shadowRoot.querySelector('h1').innerHTML = `Sensor ${currentSensor} grafieken`; //huidige sensor aangeven in h1
+        console.log(currentSensor);
+
         this.mockSensorData = [];
         this.uniqueSensorIds = [];
         this.uniqueSensorTypes = [];
         this.chartsContainer = this.shadowRoot.getElementById('chartsContainer');
-        this.apiRequest();
+        this.apiRequest(currentSensor);
     }
 
-    async apiRequest() {
+    async apiRequest(sensorId) {
         try {
             const url = 'http://plantensensor.northeurope.cloudapp.azure.com:11000/api/GetAllSensorDataFromAllSensors';
             const response = await fetch(url);
@@ -82,8 +89,9 @@ class chartComponent extends HTMLElement {
             const data = await response.json();
             this.mockSensorData = data instanceof Array ? data : [data];
             this.uniqueSensorIds = getSensorIds(this.mockSensorData);
+
             this.uniqueSensorTypes = getSensorTypes(this.mockSensorData);
-            this.updateChart(this.uniqueSensorIds[0]);
+            this.updateChart(sensorId);
         } catch (error) {
             console.error('Error fetching data:', error);
         }

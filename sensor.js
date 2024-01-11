@@ -1,4 +1,8 @@
 // sensor.js
+
+function getCurrentSensorId(){
+    return sessionStorage.getItem('currentSensorId');
+}
 //alles van de sensor pagina webcomponent zelf
 const sensorTemplate = document.createElement("template");
 sensorTemplate.innerHTML = /*html*/`
@@ -100,7 +104,7 @@ class ContainerComponent extends HTMLElement {
                 font-size: 3em;
             }
         </style>    
-        <h1>sensor x Table</h1>
+        <h1>Sensor x tabel</h1>
             <div>
                 <ul-component title="Plant" item-array='["Luchtvochtigheid:","Bodemvochtigheid:"," Zoutgehalte:"," Lichtintensiteit:"," Hoogte:"," Druk:"," Temperatuur:"]'
                                             data-array='["${humidity}%"," ${soil}%"," ${salt}", "${light_intensity}lux","${altitude}m","${pressure}hPa","${temperature}°C"]'>
@@ -117,6 +121,11 @@ class ContainerComponent extends HTMLElement {
                 </ul-component>
             </div>
         `;
+    }
+    
+    connectedCallback(){
+        const currentSensor = getCurrentSensorId(); //vraag de huidige sensorid
+        this.shadowRoot.querySelector('h1').innerHTML = `Sensor ${currentSensor} tabel`; //huidige sensor aangeven in h1
     }
 }
 

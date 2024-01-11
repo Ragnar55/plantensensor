@@ -2,6 +2,14 @@
 import "./sensor.js"//moet die laaddata doen
 //#endregion IMPORTS
 
+function getSensorIds(sensorData) {
+    const uniqueIds = new Set();
+    sensorData.forEach(data => {
+        uniqueIds.add(data.sensorId);
+    });
+    return Array.from(uniqueIds);
+}
+
 const template = document.createElement("template")
 template.innerHTML = /*html*/`
     <style>
@@ -41,7 +49,6 @@ template.innerHTML = /*html*/`
     
     <ul id="navbar">
         <li><button id="home" class="button-style">Home</button></li>
-        <li><button id="add" class="button-style">+</button></li>
     </ul>
 `
 
@@ -54,18 +61,15 @@ class navComponent extends HTMLElement
         this.shadow.append(template.content.cloneNode(true));
         
         this.button = this.shadowRoot.querySelectorAll("button");
-        this.counter = 1; //de nieuwe button counter op "1" instellen
+        this.currentPage = null;
+
+        this.homeComponentAdded = false;
 
         // nieuwe sensorbutton toevoegen
         this.button.forEach(btn => {
             btn.addEventListener('mousedown', (e) =>{
                 console.log("btn Clicked");
-                if (btn.getAttribute("id") === "add"){
-                    this.addNewSensor();
-                }
-                else {
                     this.ChangePageEvent(btn.getAttribute("id"));
-                }
             });
         });
     }
@@ -85,39 +89,42 @@ class navComponent extends HTMLElement
             // Clear existing components
             pageContainer.innerHTML = '';
             pageContainer.appendChild(homeComponent);
+
             this.currentPage = homeComponent;
+            document.querySelector('app-comp').hideBNav();
         }
     }
 
-    addNewSensor(){
-        const newLi = document.createElement("li");
-        const newSensor = document.createElement("button");
-        newSensor.classList.add("button-style");
+    addSensors(){
+        const availableSensors = this.uniqueSensorIds;
+        const navbar = this.shadowRoot.getElementById("navbar");
 
-        //knop tekst + id instellen
-        newSensor.textContent = `Sensor ${this.counter}`;
-        newSensor.setAttribute("id", `sensor${this.counter}`);
-        this.counter++;
-        
-        //knop voor de "+" button zetten
-        const addSensor = this.shadowRoot.querySelector("#add");
-        this.shadowRoot.querySelector("ul").insertBefore(newLi, addSensor.parentNode);
-        newLi.appendChild(newSensor);
+        availableSensors.forEach(sensorId => {
+            const newLi = document.createElement("li");
+            const newSensor = document.createElement("button");
+            newSensor.classList.add("button-style");
 
-        //eventlistener toevoegen aan de nieuwe buttons
-        newSensor.addEventListener('mousedown', (event) =>{
-            const sensorId = newSensor.getAttribute("id");
-            this.ChangePageEvent(sensorId);
-        });
+            //knop tekst + id instellen
+            newSensor.textContent = `Sensor ${sensorId}`;
+            newSensor.setAttribute("id", `sensor${sensorId}`);
 
-        //optie om de sensor een andere naam te geven
-        newSensor.addEventListener('contextmenu', (event) =>{
+            navbar.appendChild(newLi);
+            newLi.appendChild(newSensor);
+
+            //eventlistener toevoegen aan de nieuwe buttons
+            newSensor.addEventListener('mousedown', (event) =>{
+                this.ChangePageEvent(sensorId);
+            });
+
+            //optie om de sensor een andere naam te geven
+            newSensor.addEventListener('contextmenu', (event) =>{
             event.preventDefault();
 
             const newName = prompt('Enter a new name for the sensor:', newSensor.textContent);
             if (newName !== null){
                 newSensor.textContent = newName
             }
+        });
         });
     }
     
@@ -134,16 +141,41 @@ class navComponent extends HTMLElement
 
         pageContainer.appendChild(sensorComponent);
         console.log("displaySensor")
+
+        this.currentPage = sensorComponent;
+        document.querySelector('app-comp').showBNav();
     }
     
 
     connectedCallback()
-    {
+    {        
+        console.log("connected callback called");
+        this.laadData();
         this.button.forEach(btn => {
             btn.addEventListener('mousedown', (e) =>{
                 console.log("nav btn Clicked")
                 this.ChangePageEvent(btn.getAttribute("id"))
             });
+        });
+
+        if (!this.homeComponentAdded) {
+            this.addHomeComponent();
+            this.homeComponentAdded = true;
+        }
+    }
+
+    laadData(){
+        fetch("http://plantensensor.northeurope.cloudapp.azure.com:11000/api/GetAllSensorDataFromAllSensors")// haalt alles op
+        .then(response => response.json())
+        .then(data => {
+            this.sensorData = data instanceof Array ? data : [data];
+            this.uniqueSensorIds = getSensorIds(this.sensorData);
+
+            console.log("sensor ids", this.uniqueSensorIds);
+            this.addSensors();
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
         });
     }
 
@@ -151,8 +183,9 @@ class navComponent extends HTMLElement
         if (id === "home") {
             this.addHomeComponent();
         } 
-        else if (id.startsWith("sensor")) {
+        else{
             console.log("Displaying sensor:", id);
+            this.setCurrentSensorId(id);
             this.displaySensor(id);
         }
 
@@ -161,6 +194,10 @@ class navComponent extends HTMLElement
             composed: true,
             detail: id
         }));
+    }
+    
+    setCurrentSensorId(sensorId){
+        sessionStorage.setItem('currentSensorId', sensorId)
     }
 }
 

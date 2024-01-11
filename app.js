@@ -26,6 +26,7 @@ template.innerHTML = /*html*/`
     #bNavContainer {
         padding: 2em;
         margin-top: 5em;
+        width: 24em;
     }
     #pageAndbNAv {
         display: flex;
@@ -41,7 +42,9 @@ template.innerHTML = /*html*/`
     <div id="pageAndbNAv">
         <div id="pageContainer"></div>
         <div id="bNavContainer">
-            <bnav-comp></bnav-comp>
+            <div id="bNavHideContainer">
+                <bnav-comp></bnav-comp>
+            </div>
         </div>
     </div>
 `
@@ -54,6 +57,16 @@ class app extends HTMLElement
         shadow.append(template.content.cloneNode(true))
 
         this.pageContainer = shadow.getElementById("pageContainer");
+        this.bNavHideContainer = shadow.getElementById("bNavHideContainer");
+
+        this.hideBNav();
+    }
+    showBNav() {
+        this.bNavHideContainer.style.display = "block";
+    }
+
+    hideBNav() {
+        this.bNavHideContainer.style.display = "none";
     }
 }
 

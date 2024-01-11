@@ -44,8 +44,8 @@ bnavtemplate.innerHTML = /*html*/`
     </style>
     
     <ul id="bnavbar">
-        <li><button id="table" class="button-style">Table</button></li>
-        <li><button id="chart" class="button-style">Chart</button></li>
+        <li><button id="table" class="button-style">Tabel</button></li>
+        <li><button id="chart" class="button-style">Grafieken</button></li>
     </ul>
 `
 

@@ -1,15 +1,12 @@
-//#region IMPORTS
-
-//#endregion IMPORTS
-
 const homeTemplate = document.createElement("template")
 homeTemplate.innerHTML = /*html*/`
     <style>
-        h1{
-            color: blue;
+        h1 {
+            text-align: center;
+            font-size: 3em;
         }
     </style>
-    <h1>hello i am the home page</h1>
+    <h1>Active sensors:</h1>
 `
 
 class homeComponent extends HTMLElement
