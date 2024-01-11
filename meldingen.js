@@ -1,5 +1,5 @@
 //#region IMPORTS
-import { laadData } from "./sensor.js";
+import { laadData, lowBattery, drySoil } from "./sensor.js";
 //#endregion IMPORTS
 
 const homeTemplate = document.createElement("template")
@@ -13,6 +13,7 @@ homeTemplate.innerHTML = /*html*/`
             margin-left: 5em;
             width: fit-content;
             border-radius: 0.5em;
+            display: flex;
         }
         #batterij{
             background-color: #FFFF33;
@@ -34,17 +35,38 @@ class meldingenComponent extends HTMLElement
         super()
         this.shadow = this.attachShadow({mode: "open"}) 
         this.shadow.append(homeTemplate.content.cloneNode(true))
-    }
-    showBatteryMessage(){
 
+        //checkIfMeldingenAreNeeded functie elke 10 seconden aanroepen
+        this.intervalId = setInterval(this.checkIfMeldingenAreNeeded.bind(this), 10000);
     }
-    showWaterMessage(){
-
-    }
+    
     connectedCallback()
     {        
         console.log("connected callback called");
         laadData();
+    }
+    checkIfMeldingenAreNeeded(){
+        console.log(`Low soil humidity for these sensors: ${drySoil}`);
+        console.log(`Low battery for these sensors: ${lowBattery}`);
+        const meldingenbox = this.shadowRoot.getElementById('meldingenBox');
+
+        if (drySoil.length > 0){
+            drySoil.forEach(id =>{
+                const waterMelding = document.createElement('h1');
+                waterMelding.textContent = `Let op: Plant ${id} heeft water nodig`;
+                waterMelding.id = 'water';
+                meldingenbox.appendChild(waterMelding);
+            });
+        }
+
+        if (lowBattery.length > 0){
+            lowBattery.forEach(id =>{
+                const batterijMelding = document.createElement('h1');
+                batterijMelding.textContent = `Let op: sensor ${id} heeft een laag batterijniveau`;
+                batterijMelding.id = 'batterij';
+                meldingenbox.appendChild(batterijMelding);
+            });
+        }
     }
 }
 

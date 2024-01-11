@@ -34,8 +34,11 @@ var light_intensity = 0;
 var altitude = 0;
 var pressure = 0;
 var temperature = 0;
-
 var batterij = 0;
+
+// voor de meldingen
+let lowBattery = [];
+let drySoil = [];
 
 function laadData(id){//haalt alle data op,filterd ze, laat ze zien in console en zet ze in variabele, overschrijft de default values van hierboven + id moet megegeven worden
     fetch("http://plantensensor.northeurope.cloudapp.azure.com:11000/api/GetAllDataFromSpecifiedSensor?sensorId="+id)// haalt alles op
@@ -91,25 +94,19 @@ function laadData(id){//haalt alle data op,filterd ze, laat ze zien in console e
                     break;
             }
         });
-        let lowBatterySensors = [];
-        let drySoil = [];
+
         if (soil < 20) {
             drySoil.push(id);
             console.log(`Low soil humidity for sensor ID: ${id}`);
-            console.log(`Low soil humidity for these sensors: ${drySoil}`);
         }
         if (batterij < 200) { 
-            lowBatterySensors.push(id);
-            console.log(`Low battery for sensor ID: ${id}`);
-            console.log(`Low battery for these sensors: ${lowBatterySensors}`);
-
+            lowBattery.push(id);
         }
-        
     })
     .catch(error => console.error("Error fetching data:", error));//als er iets fout is gegaan bij het ophalen van data natuurlijk
     document.dispatchEvent(new CustomEvent('SensorDataLoaded'));
 }
-export { laadData };
+export { laadData, lowBattery, drySoil };
 
 class ContainerComponent extends HTMLElement {
     constructor() {

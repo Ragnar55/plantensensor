@@ -1,5 +1,5 @@
 //#region IMPORTS
-import { laadData } from "./sensor.js";//moet die laaddata doen
+import { laadData } from "./sensor.js";
 //#endregion IMPORTS
 
 function getSensorIds(sensorData) {
