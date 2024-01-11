@@ -37,7 +37,6 @@ class homeComponent extends HTMLElement
         this.homeComponentAdded = false;
     }
 
-    laadData(){
     addSensors(){
         const sensors = this.shadow.getElementById("sensors");
         sensors.innerHTML = "";
