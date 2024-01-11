@@ -52,19 +52,18 @@ homeTemplate.innerHTML = /*html*/`
             font-size: 1em;
         }
         .sensor-info {
-            font-size: 2.5em;
+            font-size: 2em;
             text-align: center;
             margin: 0.5em;
             padding: 0.5em;
             border-radius: 5em;
             background-color: #A4DEDF;
-            width: 15em;
+            width: 10em;
         }
         #sensors{
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             align-items: center;
-
         }
     </style>
     <h1>Active sensors:</h1>
