@@ -64,6 +64,12 @@ class navComponent extends HTMLElement
 
         this.shadow = this.attachShadow({mode: "open"});
         this.shadow.append(template.content.cloneNode(true));
+
+        const homeButton = this.shadowRoot.getElementById("home");
+        homeButton.addEventListener('mousedown', () => {
+            console.log("homebutton clicked");
+            this.ChangePageEvent(homeButton.id)
+        });
     }
     
     addHomeComponent() {
@@ -73,16 +79,20 @@ class navComponent extends HTMLElement
         const appShadow = document.querySelector('app-comp').shadowRoot;
         const pageContainer = appShadow.getElementById("pageContainer");
 
-        // Clear existing components
+        // Bestaande componenten verwijderen
+        pageContainer.innerHTML = '';
+
+        // home comp toevoegen aan pagecontainer
         pageContainer.appendChild(homeComponent);
         this.currentPage = homeComponent;
         document.querySelector('app-comp').hideBNav();
     }
 
-    addSensors(){
+    addSensorButtons(){
         const availableSensors = this.uniqueSensorIds;
         const navbar = this.shadowRoot.getElementById("navbar");
 
+        //elke beschikbare id afgaan een een knop aanmaken met dezelfde id
         availableSensors.forEach(sensorId => {
             const newLi = document.createElement("li");
             const newSensor = document.createElement("button");
@@ -96,9 +106,7 @@ class navComponent extends HTMLElement
             newLi.appendChild(newSensor);
 
             //eventlistener toevoegen aan de nieuwe buttons
-            newSensor.addEventListener('mousedown', (event) =>{
-                this.ChangePageEvent(sensorId);
-            });
+            newSensor.addEventListener('mousedown', () => this.ChangePageEvent(sensorId));
         });
     }
     
@@ -106,7 +114,7 @@ class navComponent extends HTMLElement
         const appShadow = document.querySelector('app-comp').shadowRoot;
         const pageContainer = appShadow.getElementById("pageContainer");
 
-        // Clear existing components
+        // Bestaande componenten verwijderen
         pageContainer.innerHTML = '';
 
         // Dynamisch een nieuw component aanmaken voor de id
@@ -128,17 +136,8 @@ class navComponent extends HTMLElement
             this.sensorData = data instanceof Array ? data : [data];
             this.uniqueSensorIds = getSensorIds(this.sensorData);
 
-            console.log("sensor ids", this.uniqueSensorIds);
-////////////////////////////
-            // Check if data is loaded for all unique sensor IDs
-            const allDataLoaded = this.uniqueSensorIds.every(id => this.sensorData.some(data => data.sensorId === id));
-            if (!allDataLoaded) {
-                console.error("Not all data loaded for unique sensor IDs");
-                return;
-            }
-////////////////////////////
             this.addHomeComponent(); //voor this.homeComponentAdded = true, anders krijg je errors
-            this.addSensors();
+            this.addSensorButtons();
 
             this.uniqueSensorIds.forEach(id => {
                 laadData(id);
@@ -154,20 +153,31 @@ class navComponent extends HTMLElement
     {        
         console.log("connected callback called");
         this.laadIdData();
+
+        let lastId = 0; //buiten changePageEvent declaren zodat lastId aangepast kan blijven worden
+        let resetId = 0;
+        setCurrentSensorId(resetId);
+
+        console.log("Current ID:", getCurrentSensorId());
+        console.log("last ID:", lastId);
     }
 
-    lastId = 0; //buiten changePageEvent declaren zodat lastId aangepast kan blijven worden
     ChangePageEvent(id){
         console.log("ChangePageEvent called for ID:", id);
+        console.log("Current ID:", getCurrentSensorId());
+        console.log("Last ID:", this.lastId);
+
+        setCurrentSensorId(id);
+        const currentId = getCurrentSensorId();
+
         if (id == "home") {
             this.addHomeComponent();
         } 
         else{
-            setCurrentSensorId(id);
-            const currentId = getCurrentSensorId();
-            if (currentId != this.lastId){
-                this.lastId = currentId;
-                this.displaySensor(currentId);
+
+            if (currentId != this.lastId){          // zorgt ervoor dat de page niet terug naar table switcht
+                this.lastId = currentId;            // als dezelfde sensor opnieuw geselecteerd wordt in grafiek weergave
+                this.displaySensor(id);
             }
             else{
                 return;

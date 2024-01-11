@@ -113,16 +113,6 @@ class navComponent extends HTMLElement
             newSensor.addEventListener('mousedown', (event) =>{
                 this.ChangePageEvent(sensorId);
             });
-
-            //optie om de sensor een andere naam te geven
-            newSensor.addEventListener('contextmenu', (event) =>{
-            event.preventDefault();
-
-            const newName = prompt('Enter a new name for the sensor:', newSensor.textContent);
-            if (newName !== null){
-                newSensor.textContent = newName
-            }
-        });
         });
     }
     
