@@ -63,6 +63,7 @@ class navComponent extends HTMLElement
         this.shadow = this.attachShadow({mode: "open"});
         this.shadow.append(template.content.cloneNode(true));
 
+        //eventListener toevoegen aan homebutton
         const homeButton = this.shadowRoot.getElementById("home");
         homeButton.addEventListener('mousedown', () => {
             console.log("homebutton clicked");
@@ -135,7 +136,7 @@ class navComponent extends HTMLElement
         document.querySelector('app-comp').showBNav();
     }
 
-    laadIdData(){
+    laadIdData(){ //ids uit de data halen en de data al laden voor elke id
         console.log('loading data...');
         fetch("http://plantensensor.northeurope.cloudapp.azure.com:11000/api/GetAllSensorDataFromAllSensors")// haalt alles op
         .then(response => response.json())
@@ -147,7 +148,7 @@ class navComponent extends HTMLElement
             this.addSensorButtons();
 
             this.uniqueSensorIds.forEach(id => {
-                laadData(id);
+                laadData(id);           //uit sensor.js
                 console.log(`data loaded for id ${id}`);
             });
             setCurrentSensorId("home");
@@ -165,7 +166,6 @@ class navComponent extends HTMLElement
 
     ChangePageEvent(id){
         console.log("ChangePageEvent called for ID:", id);
-        //console.log("Last ID:", this.lastId);
 
         setCurrentSensorId(id);
 
@@ -174,14 +174,6 @@ class navComponent extends HTMLElement
         } 
         else{
             this.displaySensor(id);
-            /*
-            if (currentId != this.lastId){          // zorgt ervoor dat de page niet terug naar table switcht
-                this.lastId = currentId;            // als dezelfde sensor opnieuw geselecteerd wordt in grafiek weergave
-                this.displaySensor(id);
-            }
-            else{
-                return;
-            }*/
         }
         
         this.dispatchEvent(new CustomEvent("ChangePageEvent", {

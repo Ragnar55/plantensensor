@@ -65,7 +65,7 @@ class app extends HTMLElement
     showBNav() {
         this.bNavHideContainer.style.display = "block";
     }
-
+                    //bnav hiden op de home page en alleen beschikbaar maken als een sensor geselecteerd is
     hideBNav() {
         this.bNavHideContainer.style.display = "none";
     }

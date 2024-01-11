@@ -46,16 +46,16 @@ class meldingenComponent extends HTMLElement
     }
 
     checkIfMeldingenAreNeeded(){
-        console.log(`Low soil humidity for these sensors: ${drySoil}`);
-        console.log(`Low battery for these sensors: ${lowBattery}`);
+        //console.log(`Low soil humidity for these sensors: ${drySoil}`);
+        //console.log(`Low battery for these sensors: ${lowBattery}`);
         const meldingenbox = this.shadowRoot.getElementById('meldingenBox');
 
         //elke 10 sec wordt de code uitgevoerd, dus oude knoppen moeten verwijderd worden
         meldingenbox.querySelectorAll('#water, #batterij').forEach(button => button.remove());
 
         if (drySoil.length > 0){
-            drySoil.forEach(id =>{
-                if(typeof id === 'number'){
+            drySoil.forEach(id =>{          //gaat elk id van de array af
+                if(typeof id === 'number'){ //zorgt ervoor da der alleen nummers toegevoegd kunnen worden, niet dat er een lege array toegevoegd wordt ofzo
                     const waterMelding = document.createElement('h1');
 
                     waterMelding.textContent = `Let op: Plant ${id} heeft water nodig`;
