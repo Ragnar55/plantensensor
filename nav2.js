@@ -1,5 +1,5 @@
 //#region IMPORTS
-import "./sensor.js"//moet die laaddata doen
+import { laadData } from "./sensor.js";//moet die laaddata doen
 //#endregion IMPORTS
 
 function getSensorIds(sensorData) {
@@ -99,16 +99,6 @@ class navComponent extends HTMLElement
             newSensor.addEventListener('mousedown', (event) =>{
                 this.ChangePageEvent(sensorId);
             });
-
-            //optie om de sensor een andere naam te geven
-            newSensor.addEventListener('contextmenu', (event) =>{
-                event.preventDefault();
-
-                const newName = prompt('Enter a new name for the sensor:', newSensor.textContent);
-                if (newName !== null){
-                    newSensor.textContent = newName
-                }
-            });
         });
     }
     
@@ -130,7 +120,7 @@ class navComponent extends HTMLElement
         document.querySelector('app-comp').showBNav();
     }
 
-    laadData(){
+    laadIdData(){
         console.log('loading data...');
         fetch("http://plantensensor.northeurope.cloudapp.azure.com:11000/api/GetAllSensorDataFromAllSensors")// haalt alles op
         .then(response => response.json())
@@ -139,9 +129,21 @@ class navComponent extends HTMLElement
             this.uniqueSensorIds = getSensorIds(this.sensorData);
 
             console.log("sensor ids", this.uniqueSensorIds);
-            
+////////////////////////////
+            // Check if data is loaded for all unique sensor IDs
+            const allDataLoaded = this.uniqueSensorIds.every(id => this.sensorData.some(data => data.sensorId === id));
+            if (!allDataLoaded) {
+                console.error("Not all data loaded for unique sensor IDs");
+                return;
+            }
+////////////////////////////
             this.addHomeComponent(); //voor this.homeComponentAdded = true, anders krijg je errors
             this.addSensors();
+
+            this.uniqueSensorIds.forEach(id => {
+                laadData(id);
+                console.log(`data loaded for id ${id}`);
+            });
         })
         .catch(error => {
             console.error("Error fetching data:", error);
@@ -151,7 +153,7 @@ class navComponent extends HTMLElement
     connectedCallback()
     {        
         console.log("connected callback called");
-        this.laadData();
+        this.laadIdData();
     }
 
     lastId = 0; //buiten changePageEvent declaren zodat lastId aangepast kan blijven worden

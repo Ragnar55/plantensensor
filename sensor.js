@@ -38,6 +38,7 @@ var temperature = 0;
 var batterij = 0;
 
 function laadData(id){//haalt alle data op,filterd ze, laat ze zien in console en zet ze in variabele, overschrijft de default values van hierboven + id moet megegeven worden
+    console.log(`Loading data for Sensor ID (in sensor.js): ${id}`)
     fetch("http://plantensensor.northeurope.cloudapp.azure.com:11000/api/GetAllDataFromSpecifiedSensor?sensorId="+id)// haalt alles op
     //http://plantensensor.northeurope.cloudapp.azure.com:11000/api/GetAllSensorDataFromAllSensors
     //alle data
@@ -93,7 +94,9 @@ function laadData(id){//haalt alle data op,filterd ze, laat ze zien in console e
         });
     })
     .catch(error => console.error("Error fetching data:", error));//als er iets fout is gegaan bij het ophalen van data natuurlijk
+    document.dispatchEvent(new CustomEvent('SensorDataLoaded'));
 }
+export { laadData };
 
 class ContainerComponent extends HTMLElement {
     constructor() {
