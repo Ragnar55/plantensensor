@@ -37,9 +37,8 @@ var temperature = 0;
 var batterij = 0;
 
 // voor de meldingen
-let lowBattery = [];
-let drySoil = [];
-
+let drySoil = []; 
+let lowBattery = []; 
 function laadData(id){//haalt alle data op,filterd ze, laat ze zien in console en zet ze in variabele, overschrijft de default values van hierboven + id moet megegeven worden
     fetch("http://plantensensor.northeurope.cloudapp.azure.com:11000/api/GetAllDataFromSpecifiedSensor?sensorId="+id)// haalt alles op
     //http://plantensensor.northeurope.cloudapp.azure.com:11000/api/GetAllSensorDataFromAllSensors
@@ -97,9 +96,8 @@ function laadData(id){//haalt alle data op,filterd ze, laat ze zien in console e
 
         if (soil < 20) {
             drySoil.push(id);
-            console.log(`Low soil humidity for sensor ID: ${id}`);
         }
-        if (batterij < 200) { 
+        if (batterij < 50) { 
             lowBattery.push(id);
         }
     })
