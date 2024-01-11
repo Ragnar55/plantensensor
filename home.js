@@ -56,7 +56,6 @@ homeTemplate.innerHTML = /*html*/`
             text-align: center;
             margin: 0.5em;
             padding: 0.5em;
-            border: 1px solid #ccc;
             border-radius: 5em;
             background-color: #A4DEDF;
             width: 15em;
