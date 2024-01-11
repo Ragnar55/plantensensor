@@ -97,7 +97,7 @@ function laadData(id){//haalt alle data op,filterd ze, laat ze zien in console e
         if (soil < 20) {
             drySoil.push(id);
         }
-        if (batterij < 200) { 
+        if (batterij < 50) { 
             lowBattery.push(id);
         }
     })
