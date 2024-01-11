@@ -49,13 +49,23 @@ homeTemplate.innerHTML = /*html*/`
         }
         h2 {
             text-align: center;
-            font-size: 2.5em;
+            font-size: 1em;
         }
         .sensor-info {
+            font-size: 2.5em;
             text-align: center;
-            margin: 10px;
-            padding: 10px;
+            margin: 0.5em;
+            padding: 0.5em;
             border: 1px solid #ccc;
+            border-radius: 5em;
+            background-color: #A4DEDF;
+            width: 15em;
+        }
+        #sensors{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
         }
     </style>
     <h1>Active sensors:</h1>
@@ -84,8 +94,12 @@ class homeComponent extends HTMLElement {
         sensorIds.forEach((sensorId, index) => {
             const sensorInfo = document.createElement("div");
             sensorInfo.classList.add("sensor-info");
-            sensorInfo.textContent = `Sensor ID: ${sensorId}, Latest Battery: ${batteryData[index]}`;
+            sensorInfo.textContent = `Sensor ${sensorId}`;
             sensorsDiv.appendChild(sensorInfo);
+
+            const batterijInfo = document.createElement("h2");
+            batterijInfo.textContent = `Battery: ${batteryData[index]}%`;
+            sensorInfo.appendChild(batterijInfo);
         });
     }
 }
