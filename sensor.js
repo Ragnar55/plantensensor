@@ -91,6 +91,20 @@ function laadData(id){//haalt alle data op,filterd ze, laat ze zien in console e
                     break;
             }
         });
+        let lowBatterySensors = [];
+        let drySoil = [];
+        if (soil < 20) {
+            drySoil.push(id);
+            console.log(`Low soil humidity for sensor ID: ${id}`);
+            console.log(`Low soil humidity for these sensors: ${drySoil}`);
+        }
+        if (batterij < 200) { 
+            lowBatterySensors.push(id);
+            console.log(`Low battery for sensor ID: ${id}`);
+            console.log(`Low battery for these sensors: ${lowBatterySensors}`);
+
+        }
+        
     })
     .catch(error => console.error("Error fetching data:", error));//als er iets fout is gegaan bij het ophalen van data natuurlijk
     document.dispatchEvent(new CustomEvent('SensorDataLoaded'));

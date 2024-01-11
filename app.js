@@ -38,6 +38,7 @@ template.innerHTML = /*html*/`
 
     <div id="navContainer">
         <nav-comp></nav-comp>
+        <meldingen-comp></meldingen-comp>
     </div>
     
     <div id="pageAndbNAv">

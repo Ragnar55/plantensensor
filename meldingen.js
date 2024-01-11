@@ -1,12 +1,23 @@
+//#region IMPORTS
+import { laadData } from "./sensor.js";
+//#endregion IMPORTS
+
 const homeTemplate = document.createElement("template")
 homeTemplate.innerHTML = /*html*/`
     <style>
+        #batterij, #water{
+            text-align: center;
+            font-size: 1.3em;
+            padding: 1em;
+            margin-right: 5em;
+            margin-left: 5em;
+            width: fit-content;
+            border-radius: 0.5em;
+        }
         #batterij{
-            font-size: 1em;
             background-color: #FFFF33;
         }
         #water{
-            font-size: 1em;
             background-color: #0E87CC;
         }
 
@@ -24,7 +35,17 @@ class meldingenComponent extends HTMLElement
         this.shadow = this.attachShadow({mode: "open"}) 
         this.shadow.append(homeTemplate.content.cloneNode(true))
     }
+    showBatteryMessage(){
 
+    }
+    showWaterMessage(){
+
+    }
+    connectedCallback()
+    {        
+        console.log("connected callback called");
+        laadData();
+    }
 }
 
-customElements.define('mdelingen-comp', meldingenComponent)
+customElements.define('meldingen-comp', meldingenComponent)
