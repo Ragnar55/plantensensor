@@ -38,6 +38,7 @@ var temperature = 0;
 var batterij = 0;
 
 function laadData(id){//haalt alle data op,filterd ze, laat ze zien in console en zet ze in variabele, overschrijft de default values van hierboven + id moet megegeven worden
+    console.log(`Loading data for Sensor ID (in laadData sensor.js): ${id}`);
     fetch("http://plantensensor.northeurope.cloudapp.azure.com:11000/api/GetAllDataFromSpecifiedSensor?sensorId="+id)// haalt alles op
     //http://plantensensor.northeurope.cloudapp.azure.com:11000/api/GetAllSensorDataFromAllSensors
     //alle data
@@ -112,6 +113,13 @@ class ContainerComponent extends HTMLElement {
             <div>
                 <ul-component title="Plant" item-array='["Luchtvochtigheid:","Bodemvochtigheid:"," Zoutgehalte:"," Lichtintensiteit:"," Hoogte:"," Druk:"," Temperatuur:"]'
                                             data-array='["${humidity}%"," ${soil}%"," ${salt}", "${light_intensity}lux","${altitude}m","${pressure}hPa","${temperature}°C"]'>
+                    <!--
+                    <img src="/img/pressure.png" alt="Image"> is juist
+                    <img src="../img/humidity.png" alt="Image"> maar betekent natuurlijk niet dat dit deftig werkt
+                    <img src="../img/height.png" alt="Image">
+                    <img src="../img/light.png" alt="Image">                
+                    <img src="../img/termometer.png" alt="Image">
+                    -->
                 </ul-component>
 
                 <ul-component title="Sensor" item-array='[" Batterij:"]' data-array='["${batterij}%"]'>
