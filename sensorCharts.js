@@ -1,22 +1,14 @@
-function filterDataByType(sensorData, sensorType) {
-    return sensorData.filter(data => data.type === sensorType);
-};
-
-function filterDataById(sensorData, sensorId) {
-    return sensorData.filter(data => data.sensorId === sensorId);
-};
-
 function filterDataByTypeAndId (sensorData, sensorType, sensorId) {
     return sensorData.filter(data => data.type == sensorType && data.sensorId == sensorId);
 };
 
 function extractValues(sensorDataArray) {
     return sensorDataArray.map(entry => entry.value);
-}
+};
 
 function extractTimestamps(sensorDataArray) {
     return sensorDataArray.map(entry => entry.timestamp);
-}
+};
 
 function getSensorTypes(sensorData) {
     const uniqueTypes = new Set();
@@ -32,10 +24,10 @@ function getSensorIds(sensorData) {
         uniqueIds.add(data.sensorId);
     });
     return Array.from(uniqueIds);
-}
+};
 function getCurrentSensorId(){
     return sessionStorage.getItem('currentSensorId');
-}
+};
 
 const chartTemplate = document.createElement("template");
 chartTemplate.innerHTML = /*html*/`

@@ -84,12 +84,10 @@ class navComponent extends HTMLElement
             const appShadow = document.querySelector('app-comp').shadowRoot;
             const pageContainer = appShadow.getElementById("pageContainer");
 
-            pageContainer.appendChild(homeComponent);
-
             // Clear existing components
             pageContainer.innerHTML = '';
-            pageContainer.appendChild(homeComponent);
 
+            pageContainer.appendChild(homeComponent);
             this.currentPage = homeComponent;
             document.querySelector('app-comp').hideBNav();
         }
@@ -145,24 +143,6 @@ class navComponent extends HTMLElement
         this.currentPage = sensorComponent;
         document.querySelector('app-comp').showBNav();
     }
-    
-
-    connectedCallback()
-    {        
-        console.log("connected callback called");
-        this.laadData();
-        this.button.forEach(btn => {
-            btn.addEventListener('mousedown', (e) =>{
-                console.log("nav btn Clicked")
-                this.ChangePageEvent(btn.getAttribute("id"))
-            });
-        });
-
-        if (!this.homeComponentAdded) {
-            this.addHomeComponent();
-            this.homeComponentAdded = true;
-        }
-    }
 
     laadData(){
         fetch("http://plantensensor.northeurope.cloudapp.azure.com:11000/api/GetAllSensorDataFromAllSensors")// haalt alles op
@@ -172,6 +152,8 @@ class navComponent extends HTMLElement
             this.uniqueSensorIds = getSensorIds(this.sensorData);
 
             console.log("sensor ids", this.uniqueSensorIds);
+            
+            this.addHomeComponent(); //voor this.homeComponentAdded = true, anders krijg je errors
             this.addSensors();
         })
         .catch(error => {
@@ -179,16 +161,42 @@ class navComponent extends HTMLElement
         });
     }
 
+    connectedCallback()
+    {        
+        console.log("connected callback called");
+        this.laadData();
+
+        this.button.forEach(btn => {
+            btn.addEventListener('mousedown', (e) =>{
+                this.ChangePageEvent(btn.getAttribute("id"))
+            }, {once: true}); //voorkomt dat er 2 eventlisteners met de home button verbonden zijn
+        });
+
+        if (!this.homeComponentAdded) {
+            this.homeComponentAdded = true;
+        }
+    }
+
     ChangePageEvent(id){
+        console.log("ChangePageEvent called for ID:", id);
         if (id === "home") {
             this.addHomeComponent();
+            return;
         } 
         else{
             console.log("Displaying sensor:", id);
+            const lastId = this.getCurrentSensorId();
             this.setCurrentSensorId(id);
-            this.displaySensor(id);
-        }
+            const currentId = this.getCurrentSensorId();
 
+            if (currentId != lastId){
+                this.displaySensor(currentId);
+            }
+            else{
+                return;
+            }
+        }
+        
         this.dispatchEvent(new CustomEvent("ChangePageEvent", {
             bubbles: true,
             composed: true,
@@ -198,6 +206,9 @@ class navComponent extends HTMLElement
     
     setCurrentSensorId(sensorId){
         sessionStorage.setItem('currentSensorId', sensorId)
+    }
+    getCurrentSensorId(){
+        return sessionStorage.getItem('currentSensorId');
     }
 }
 
