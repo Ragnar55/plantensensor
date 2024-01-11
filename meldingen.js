@@ -55,6 +55,7 @@ class meldingenComponent extends HTMLElement
 
         if (drySoil.length > 0){
             drySoil.forEach(id =>{
+                if(typeof id === 'number'){
                     const waterMelding = document.createElement('h1');
 
                     waterMelding.textContent = `Let op: Plant ${id} heeft water nodig`;
@@ -62,11 +63,13 @@ class meldingenComponent extends HTMLElement
                     waterMelding.dataset.sensorId = id;
 
                     meldingenbox.appendChild(waterMelding);
+                }
             });
         }
 
         if (lowBattery.length > 0){
             lowBattery.forEach(id =>{
+                if(typeof id === 'number'){    
                     const batterijMelding = document.createElement('h1');
 
                     batterijMelding.textContent = `Let op: sensor ${id} heeft een laag batterijniveau`;
@@ -74,6 +77,7 @@ class meldingenComponent extends HTMLElement
                     batterijMelding.dataset.sensorId = id;
 
                     meldingenbox.appendChild(batterijMelding);
+                }
             });
         }
     }
