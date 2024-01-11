@@ -4,6 +4,7 @@ import "./home.js"
 import "./sensor.js"
 import "./sidenav.js"
 import "./sensorCharts.js"
+import "./meldingen.js"
 //#endregion IMPORTS
 
 const template = document.createElement("template")

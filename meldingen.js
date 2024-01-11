@@ -1,18 +1,19 @@
 const homeTemplate = document.createElement("template")
 homeTemplate.innerHTML = /*html*/`
     <style>
-        h1 {
-            text-align: center;
-            font-size: 3em;
+        #batterij{
+            font-size: 1em;
+            background-color: #FFFF33;
         }
-        h2 {
-            text-align: center;
-            font-size: 2.5em;
+        #water{
+            font-size: 1em;
+            background-color: #0E87CC;
         }
+
     </style>
     <div id="meldingenBox">
-        <h1>Let op: sensor x heeft een laag batterijniveau</h1>
-        <h1>Let op: Plant x heeft water nodig</h1>
+        <h1 id="batterij">Let op: sensor x heeft een laag batterijniveau</h1>
+        <h1 id="water">Let op: Plant x heeft water nodig</h1>
     </div>
 `
 
