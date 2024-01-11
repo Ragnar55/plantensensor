@@ -100,15 +100,17 @@ class navComponent extends HTMLElement
 
             //knop tekst + id instellen
             newSensor.textContent = `Sensor ${sensorId}`;
-            newSensor.setAttribute("id", `sensor${sensorId}`);
+            newSensor.setAttribute("id", `${sensorId}`);
 
             navbar.appendChild(newLi);
             newLi.appendChild(newSensor);
 
             //eventlistener toevoegen aan de nieuwe buttons
             newSensor.addEventListener('mousedown', (event) =>{
-                this.ChangePageEvent(sensorId);
-                setCurrentSensorId(sensorId);
+                const clickedSensorId = sensorId;
+                setCurrentSensorId(clickedSensorId);
+                this.ChangePageEvent(clickedSensorId);
+                console.log(`the snesor id for the eventlistener:${clickedSensorId}`)
             });
         });
     }
@@ -146,6 +148,8 @@ class navComponent extends HTMLElement
                 laadData(id);
                 console.log(`data loaded for id ${id}`);
             });
+            setCurrentSensorId("home");
+            console.log("Current ID:", getCurrentSensorId());
         })
         .catch(error => {
             console.error("Error fetching data:", error);
@@ -156,11 +160,6 @@ class navComponent extends HTMLElement
     {        
         console.log("connected callback called");
         this.laadIdData();
-
-        const startSensorId = null;
-        setCurrentSensorId(startSensorId);
-        console.log("Current ID:", getCurrentSensorId());
-        //console.log("last ID:", lastId);
     }
 
     ChangePageEvent(id){
