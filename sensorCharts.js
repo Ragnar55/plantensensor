@@ -6,9 +6,12 @@ function extractValues(sensorDataArray) {
     return sensorDataArray.map(entry => entry.value);
 };
 
-function extractTimestamps(sensorDataArray) {
-    return sensorDataArray.map(entry => entry.timestamp);
-};
+function extractFormattedDates(sensorDataArray) {
+    return sensorDataArray.map(entry => {
+        const timestamp = new Date(entry.timestamp);
+        return timestamp.toLocaleDateString();
+    });
+}
 
 function getSensorTypes(sensorData) {
     const uniqueTypes = new Set();
@@ -100,7 +103,7 @@ class chartComponent extends HTMLElement {
             const filteredData = filterDataByTypeAndId(this.mockSensorData, this.uniqueSensorTypes[type], sensorId);
             if(filteredData.length === 0) continue;
             const dataToShow = extractValues(filteredData);
-            const labelsToShow = extractTimestamps(filteredData);
+            const labelsToShow = extractFormattedDates(filteredData);
             this.generateChart(this.chartsContainer, dataToShow, labelsToShow, type);               
         }
     }
