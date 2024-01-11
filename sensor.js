@@ -214,12 +214,6 @@ class UlComponent extends HTMLElement {
                 <div class="flex-children">
                     <div class="flex-child">
                         <ul>
-                            ${Array.from(this.children).map(child => `<img src="${child.innerText}">`).join('')}
-                        </ul>
-                    </div>
-
-                    <div class="flex-child">
-                        <ul>
                             ${itemArray.map(item => `<li-component><strong>${item}</li-component></strong>`).join('')}
                         </ul>
                     </div>
