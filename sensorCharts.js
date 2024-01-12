@@ -1,34 +1,35 @@
-function filterDataByTypeAndId (sensorData, sensorType, sensorId) {
-    return sensorData.filter(data => data.type == sensorType && data.sensorId == sensorId);
-};
-
-function extractValues(sensorDataArray) {
-    return sensorDataArray.map(entry => entry.value);
-};
-
-function extractFormattedDates(sensorDataArray) {
-    return sensorDataArray.map(entry => {
-        const timestamp = new Date(entry.timestamp);
-        return timestamp.toLocaleDateString();
-    });
-}
-
-function getSensorTypes(sensorData) {
-    const uniqueTypes = new Set();
+function getSensorTypes(sensorData) {           //haalt de datatypes (soil,humidity,...)
+    const uniqueTypes = new Set();              //uit de data en zet dit in een set
     sensorData.forEach(data => {
         uniqueTypes.add(data.type);
     });
     return Array.from(uniqueTypes);
 };
 
-function getSensorIds(sensorData) {
-    const uniqueIds = new Set();
+function filterDataByTypeAndId (sensorData, sensorType, sensorId) {
+    return sensorData.filter(data => data.type == sensorType && data.sensorId == sensorId);
+};
+
+function extractValues(sensorDataArray) {               //haalt de values uit de data en zet ze in een map
+    return sensorDataArray.map(entry => entry.value);   
+};
+
+function extractFormattedDates(sensorDataArray) {       //haalt de tijd uit de data en zet deze om
+    return sensorDataArray.map(entry => {               //zet dit in een map
+        const timestamp = new Date(entry.timestamp);
+        return timestamp.toLocaleDateString();
+    });
+};
+
+function getSensorIds(sensorData) {         //haalt sensorIds uit data
+    const uniqueIds = new Set();            //& zet deze in set
     sensorData.forEach(data => {
         uniqueIds.add(data.sensorId);
     });
     return Array.from(uniqueIds);
 };
-function getCurrentSensorId(){
+
+function getCurrentSensorId(){              //huidige sensorId
     return sessionStorage.getItem('currentSensorId');
 };
 
@@ -65,9 +66,9 @@ class chartComponent extends HTMLElement {
     connectedCallback() {
         const currentSensor = getCurrentSensorId(); //vraag de huidige sensorid
         this.shadowRoot.querySelector('h1').innerHTML = `Sensor ${currentSensor} grafieken`; //huidige sensor aangeven in h1
-        console.log(currentSensor);
+        //console.log(currentSensor);
 
-        this.mockSensorData = [];
+        this.sensorData = [];           //array van de ontvangendata
         this.uniqueSensorIds = [];
         this.uniqueSensorTypes = [];
         this.chartsContainer = this.shadowRoot.getElementById('chartsContainer');
@@ -82,10 +83,11 @@ class chartComponent extends HTMLElement {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const data = await response.json();
-            this.mockSensorData = data instanceof Array ? data : [data];
-            this.uniqueSensorIds = getSensorIds(this.mockSensorData);
+            this.sensorData = data instanceof Array ? data : [data];        //ontvangen data in array gezet
 
-            this.uniqueSensorTypes = getSensorTypes(this.mockSensorData);
+            this.uniqueSensorIds = getSensorIds(this.sensorData);           //Array met sensorIds
+
+            this.uniqueSensorTypes = getSensorTypes(this.sensorData);       //zelfde met types
             this.updateChart(sensorId);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -93,22 +95,19 @@ class chartComponent extends HTMLElement {
     }
 
     updateChart(sensorId) {
-        this.chartsContainer.innerHTML = '';
+        this.chartsContainer.innerHTML = '';    //cleart de container bij elke update
 
-        if (this.uniqueSensorTypes.length === 0) {
-            this.chartsContainer.innerHTML = '<p>No sensordata found to display</p>';
-        }
-
-        for (const type in this.uniqueSensorTypes) {
-            const filteredData = filterDataByTypeAndId(this.mockSensorData, this.uniqueSensorTypes[type], sensorId);
-            if(filteredData.length === 0) continue;
-            const dataToShow = extractValues(filteredData);
-            const labelsToShow = extractFormattedDates(filteredData);
-            this.generateChart(this.chartsContainer, dataToShow, labelsToShow, type);               
+        for (const type in this.uniqueSensorTypes) {        //gaat over elke type en maakt hier een chart van
+            const filteredData = filterDataByTypeAndId(this.sensorData, this.uniqueSensorTypes[type], sensorId);
+            if(filteredData.length === 0) continue;         //als er geen filteredData is, wordt de rest geskipt
+            const showData = extractValues(filteredData);
+            const showLabels = extractFormattedDates(filteredData);
+            this.generateChart(this.chartsContainer, showData, showLabels, type);               
         }
     }
 
-    generateChart(chartsContainer, dataToShow, labelsToShow, type) {
+    generateChart(chartsContainer, showData, showLabels, type) {
+        //canvas aanmaken en toevoegen aan chartscontainer
         const canvas = document.createElement('canvas');
         canvas.style.margin = '20px';
         canvas.id = `chart-${type}`;
@@ -118,12 +117,12 @@ class chartComponent extends HTMLElement {
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: labelsToShow,
+                labels: showLabels,
                 datasets: [{
                     label: this.uniqueSensorTypes[type],
-                    data: dataToShow,
+                    data: showData,
                     borderWidth: 1,
-                    borderColor: '#0041C2',
+                    borderColor: 'black',
                 }]
             },
         });
